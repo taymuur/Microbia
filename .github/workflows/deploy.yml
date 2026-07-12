@@ -1,12 +1,12 @@
 name: Deploy to GitHub Pages
 
-# Builds and publishes the site on every push to main or the working branch,
-# so changes go live automatically (the "real-time" deploy).
+# Builds and publishes the site on every push to main, so each merged PR goes
+# live automatically. (GitHub's github-pages environment only permits deploys
+# from the default branch, so preview-from-branch isn't used.)
 on:
   push:
     branches:
       - main
-      - claude/meet-the-microbes-project-ea3eub
   workflow_dispatch:
 
 permissions:

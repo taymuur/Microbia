@@ -2,6 +2,7 @@ import type { ZoneConfig } from '../data/zones';
 import { microbesByZone, type ZoneId } from '../data/microbes';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { SpeciesCard } from './SpeciesCard';
+import { ZoneScene } from './scenes/ZoneScene';
 import { glowColor, glowHue, glowVars } from '../lib/glow';
 
 export function Zone({ zone }: { zone: ZoneConfig }) {
@@ -20,7 +21,8 @@ export function Zone({ zone }: { zone: ZoneConfig }) {
         backgroundImage: `radial-gradient(120% 60% at 50% 0%, ${glowHue(zone.accent, 0.1)} 0%, transparent 60%)`,
       }}
     >
-      <div className="mx-auto max-w-container">
+      <ZoneScene zone={String(zone.id)} />
+      <div className="relative mx-auto max-w-container">
         <header className="max-w-2xl">
           <p
             data-reveal

@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ENTRANCE } from '../data/zones';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { GutCrossSection } from './scenes/GutCrossSection';
 
 /**
  * Entrance "Shrink Ray". On "Shrink me", the hero scales/zooms toward the
@@ -47,6 +48,14 @@ export function ShrinkIntro({ onEnter }: { onEnter: () => void }) {
     >
       {/* Drifting spore field (decorative, paused under reduced motion via CSS). */}
       <SporeField />
+
+      {/* Tunnel mouth — the round cross-section opening you shrink into. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute h-[38rem] w-[38rem] max-w-[130vw] opacity-30 motion-safe:animate-[spin_140s_linear_infinite]"
+      >
+        <GutCrossSection className="h-full w-full" hue="var(--biolum-teal)" />
+      </div>
 
       {/* The shrink portal — scales up to swallow the viewport on enter. */}
       <div
