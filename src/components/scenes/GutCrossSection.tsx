@@ -3,7 +3,7 @@
 // lumen (the villi). Stylised in our bioluminescent palette, not a photo.
 export function GutCrossSection({
   className,
-  hue = 'var(--biolum-magenta)',
+  hue = 'var(--c-magenta)',
   lobes = 7,
 }: {
   className?: string;
@@ -21,11 +21,11 @@ export function GutCrossSection({
     >
       {/* concentric tissue rings */}
       <circle r="96" stroke={hue} strokeOpacity="0.25" strokeWidth="6" />
-      <circle r="86" stroke="var(--biolum-violet)" strokeOpacity="0.18" strokeWidth="2" />
+      <circle r="86" stroke="var(--c-violet)" strokeOpacity="0.18" strokeWidth="2" />
       {/* speckled submucosa */}
       <circle r="78" stroke={hue} strokeOpacity="0.5" strokeWidth="3" strokeDasharray="2 7" />
       <circle r="70" stroke={hue} strokeOpacity="0.6" strokeWidth="10" />
-      <circle r="60" stroke="var(--biolum-magenta)" strokeOpacity="0.35" strokeWidth="2" strokeDasharray="1 6" />
+      <circle r="60" stroke="var(--c-magenta)" strokeOpacity="0.35" strokeWidth="2" strokeDasharray="1 6" />
 
       {/* the folded lumen — petal-shaped villi around the centre */}
       <g>

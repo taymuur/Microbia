@@ -4,131 +4,108 @@ import { useGSAP } from '@gsap/react';
 import { ENTRANCE } from '../data/zones';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { GutCrossSection } from './scenes/GutCrossSection';
+import { MicrobeCritter } from './MicrobeCritter';
+import type { MicrobeGroup } from '../data/microbes';
+
+const FLOATERS: { group: MicrobeGroup; hue: string; top: string; left: string; idle: 'bob' | 'swim' | 'wiggle' }[] = [
+  { group: 'Bacteria', hue: 'var(--c-teal)', top: '18%', left: '12%', idle: 'bob' },
+  { group: 'Virus', hue: 'var(--c-violet)', top: '24%', left: '80%', idle: 'wiggle' },
+  { group: 'Fungi', hue: 'var(--c-amber)', top: '70%', left: '16%', idle: 'bob' },
+  { group: 'Algae / protist', hue: 'var(--c-cyan)', top: '68%', left: '82%', idle: 'swim' },
+];
 
 /**
- * Entrance "Shrink Ray". On "Shrink me", the hero scales/zooms toward the
- * visitor (a sense of being shrunk to microscopic scale), then reveals the
- * journey and scrolls to the first zone. Under reduced motion, a clean fade.
+ * Entrance "Shrink Ray". On "Shrink me!", a portal zooms toward the visitor
+ * (a sense of being shrunk to microscopic scale), then hands off to the tour.
+ * Under reduced motion, a clean fade instead.
  */
 export function ShrinkIntro({ onEnter }: { onEnter: () => void }) {
   const root = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const [entering, setEntering] = useState(false);
-
   const { contextSafe } = useGSAP({ scope: root });
 
   const shrink = contextSafe(() => {
     if (entering) return;
     setEntering(true);
-
-    const finish = () => {
-      onEnter();
-      document.getElementById('soil')?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
-    };
-
     if (reduced) {
-      gsap.to(root.current, { opacity: 0, duration: 0.35, onComplete: finish });
+      gsap.to(root.current, { opacity: 0, duration: 0.3, onComplete: onEnter });
       return;
     }
-
-    const tl = gsap.timeline({ onComplete: finish });
-    tl.to('[data-hero-content]', { opacity: 0, y: -20, duration: 0.4, ease: 'power2.in' })
-      .to('[data-hero-portal]', { scale: 18, duration: 1.0, ease: 'power3.in' }, '<0.1')
-      .to(root.current, { opacity: 0, duration: 0.4 }, '-=0.35');
+    gsap
+      .timeline({ onComplete: onEnter })
+      .to('[data-hero-content]', { opacity: 0, y: -16, duration: 0.35, ease: 'power2.in' })
+      .to('[data-floater]', { opacity: 0, scale: 0.4, duration: 0.3 }, '<')
+      .to('[data-hero-portal]', { scale: 26, duration: 0.9, ease: 'power3.in' }, '<0.05')
+      .to(root.current, { opacity: 0, duration: 0.4 }, '-=0.4');
   });
 
   return (
     <div
       ref={root}
-      className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-[var(--gutter)] text-center"
+      className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6 text-center"
       style={{
         backgroundImage:
-          'radial-gradient(80% 60% at 50% 40%, rgba(47,230,168,0.10) 0%, transparent 55%), radial-gradient(60% 50% at 70% 80%, rgba(255,79,216,0.08) 0%, transparent 60%)',
+          'radial-gradient(70% 55% at 50% 42%, color-mix(in srgb, var(--c-teal) 16%, var(--color-bg)), transparent 60%), radial-gradient(55% 45% at 78% 82%, color-mix(in srgb, var(--c-magenta) 14%, transparent), transparent 62%)',
       }}
     >
-      {/* Drifting spore field (decorative, paused under reduced motion via CSS). */}
-      <SporeField />
-
-      {/* Tunnel mouth — the round cross-section opening you shrink into. */}
+      {/* Tunnel-mouth ring you shrink into */}
       <div
         aria-hidden
-        className="pointer-events-none absolute h-[38rem] w-[38rem] max-w-[130vw] opacity-30 motion-safe:animate-[spin_140s_linear_infinite]"
+        className="pointer-events-none absolute h-[34rem] w-[34rem] max-w-[130vw] opacity-40 motion-safe:[animation:spin_150s_linear_infinite]"
       >
-        <GutCrossSection className="h-full w-full" hue="var(--biolum-teal)" />
+        <GutCrossSection className="h-full w-full" hue="var(--c-teal)" />
       </div>
 
-      {/* The shrink portal — scales up to swallow the viewport on enter. */}
+      {/* Friendly floating microbes */}
+      {FLOATERS.map((f, i) => (
+        <span
+          key={i}
+          data-floater
+          aria-hidden
+          className="pointer-events-none absolute h-16 w-16 sm:h-20 sm:w-20"
+          style={{ top: f.top, left: f.left, color: f.hue, animationDelay: `${i * 0.5}s` }}
+        >
+          <MicrobeCritter group={f.group} idle={f.idle} className="h-full w-full" />
+        </span>
+      ))}
+
+      {/* The shrink portal */}
       <div
         data-hero-portal
         aria-hidden
-        className="pointer-events-none absolute h-40 w-40 rounded-full"
-        style={{
-          background:
-            'radial-gradient(circle, rgba(47,230,168,0.35) 0%, rgba(56,225,255,0.12) 45%, transparent 70%)',
-          filter: 'blur(2px)',
-        }}
+        className="pointer-events-none absolute h-32 w-32 rounded-full"
+        style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--c-teal) 55%, transparent), transparent 70%)' }}
       />
 
-      <div data-hero-content className="relative z-10 max-w-3xl">
-        <p className="font-mono text-xl uppercase tracking-widest text-biolum-teal">
+      <div data-hero-content className="relative z-10 max-w-2xl">
+        <p className="font-display text-base font-bold uppercase tracking-widest" style={{ color: 'var(--c-teal)' }}>
           {ENTRANCE.eyebrow}
         </p>
-        <h1
-          className="mt-4 font-pixel text-[clamp(1.75rem,7vw,3.5rem)] leading-tight text-ink-100 text-glow"
-          style={{ ['--glow-hue' as string]: 'rgba(47,230,168,0.5)' }}
-        >
+        <h1 className="mt-4 font-pixel text-[clamp(1.6rem,7vw,3.25rem)] leading-tight text-ink-900">
           {ENTRANCE.title}
         </h1>
-        <p className="mt-3 font-display text-xl text-ink-300">{ENTRANCE.subtitle}</p>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-ink-100">{ENTRANCE.lede}</p>
+        <p className="mt-3 font-display text-xl font-semibold text-ink-600">{ENTRANCE.subtitle}</p>
+        <p className="mx-auto mt-5 max-w-xl text-lg text-ink-900">{ENTRANCE.lede}</p>
 
-        <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+        <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
           <button
             type="button"
             onClick={shrink}
-            className="rounded-pill bg-accent px-8 py-4 font-display text-lg font-bold text-[var(--color-on-accent)] shadow-glow-md transition duration-[--dur-micro] ease-biolum hover:shadow-glow-lg active:scale-[0.97]"
-            style={{ ['--glow-hue' as string]: 'rgba(255,179,71,0.5)' }}
+            className="rounded-pill px-8 py-4 font-display text-lg font-bold text-white shadow-card transition duration-200 ease-pop hover:scale-105 active:scale-95"
+            style={{ background: 'var(--c-teal)' }}
           >
             {ENTRANCE.cta}
           </button>
           <button
             type="button"
             onClick={shrink}
-            className="font-mono text-lg text-ink-500 underline-offset-4 hover:text-ink-100 hover:underline"
+            className="font-display font-semibold text-ink-600 underline-offset-4 hover:text-ink-900 hover:underline"
           >
             {ENTRANCE.skip}
           </button>
         </div>
       </div>
-
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-base text-ink-500" aria-hidden>
-        scroll to descend ↓
-      </div>
-    </div>
-  );
-}
-
-function SporeField() {
-  const spores = Array.from({ length: 14 });
-  return (
-    <div className="pointer-events-none absolute inset-0" aria-hidden>
-      {spores.map((_, i) => {
-        const size = 3 + (i % 4) * 2;
-        return (
-          <span
-            key={i}
-            className="absolute rounded-full bg-biolum-cyan/40 motion-safe:animate-drift"
-            style={{
-              width: size,
-              height: size,
-              left: `${(i * 61) % 100}%`,
-              top: `${(i * 37) % 100}%`,
-              animationDelay: `${(i % 7) * 0.8}s`,
-              boxShadow: '0 0 8px rgba(56,225,255,0.5)',
-            }}
-          />
-        );
-      })}
     </div>
   );
 }
