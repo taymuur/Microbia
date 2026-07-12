@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Exo+2:wght@500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&family=VT323&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Design tokens — mirror of src/design-system.md
+   Primitive -> Semantic layers. Component tokens live in the
+   components that use them.
+   ============================================================ */
+:root {
+  /* primitive — abyss */
+  --abyss-900: #05070f;
+  --abyss-800: #0a0e1a;
+  --abyss-700: #121829;
+  --abyss-600: #1a2138;
+  --abyss-500: #273150;
+
+  /* primitive — bioluminescence */
+  --biolum-teal: #2fe6a8;
+  --biolum-cyan: #38e1ff;
+  --biolum-magenta: #ff4fd8;
+  --biolum-violet: #9b7bff;
+  --biolum-amber: #ffb347;
+  --biolum-lime: #8be04a;
+
+  /* primitive — ink */
+  --ink-100: #eaf2ff;
+  --ink-300: #b7c4de;
+  --ink-500: #8da0c4;
+  --ink-700: #5a6b8c;
+  --ink-on-glow: #05070f;
+
+  /* semantic */
+  --color-bg: var(--abyss-800);
+  --color-bg-deep: var(--abyss-900);
+  --color-surface: var(--abyss-700);
+  --color-surface-raised: var(--abyss-600);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-fg: var(--ink-100);
+  --color-fg-muted: var(--ink-500);
+  --color-on-accent: var(--ink-on-glow);
+  --color-primary: var(--biolum-teal);
+  --color-accent: var(--biolum-amber);
+  --color-ring: var(--biolum-teal);
+
+  /* effect defaults; --glow-hue is overridden per zone/card */
+  --glow-hue: rgba(47, 230, 168, 0.45);
+  --glass-bg: rgba(18, 24, 41, 0.55);
+  --glass-blur: blur(16px) saturate(140%);
+  --scrim: rgba(5, 7, 15, 0.6);
+
+  /* motion */
+  --ease-biolum: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 180ms;
+  --dur-reveal: 520ms;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Visible focus ring on every interactive element (accessibility). */
+:where(a, button, [tabindex], input, summary):focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-ring);
+  border-radius: 6px;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 200;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  padding: 12px 20px;
+  border-radius: 0 0 12px 0;
+  font-weight: 700;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+/* Utility: bioluminescent text glow, coloured via --glow-hue. */
+.text-glow {
+  text-shadow: 0 0 18px var(--glow-hue);
+}
+
+/* Reduced motion: strip drift/pulse/parallax and soften transitions. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
