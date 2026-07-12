@@ -1,25 +1,22 @@
 import { usePassport } from '../hooks/usePassport';
 import { TOTAL_MICROBES } from '../data/microbes';
 
-/** Fixed, subtle "microbes collected" counter. In-memory state only. */
+/** "Microbes collected" counter. In-memory only. */
 export function Passport() {
   const { count } = usePassport();
   return (
     <div
-      className="fixed bottom-4 right-4 z-50 flex items-center gap-3 rounded-pill border border-white/10 bg-[var(--glass-bg)] px-4 py-2 backdrop-blur"
+      className="flex items-center gap-2 rounded-pill border border-[var(--color-border)] bg-surface px-4 py-2 shadow-card"
       role="status"
       aria-live="polite"
       aria-label={`Microbes collected: ${count} of ${TOTAL_MICROBES}`}
     >
-      <span
-        className="h-2.5 w-2.5 rounded-full bg-biolum-teal"
-        style={{ boxShadow: '0 0 10px var(--biolum-teal)' }}
-        aria-hidden
-      />
-      <span className="font-pixel text-pixel-label text-ink-100">
-        {count}<span className="text-ink-500">/{TOTAL_MICROBES}</span>
+      <span aria-hidden className="text-lg">🔬</span>
+      <span className="font-pixel text-pixel-label text-ink-900">
+        {count}
+        <span className="text-ink-400">/{TOTAL_MICROBES}</span>
       </span>
-      <span className="font-mono text-base text-ink-500" aria-hidden>
+      <span className="hidden font-display text-sm font-semibold text-ink-600 sm:inline" aria-hidden>
         collected
       </span>
     </div>

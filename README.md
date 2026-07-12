@@ -45,5 +45,8 @@ British English throughout.
 
 ## Status
 
-v1 journey scaffold: all six zones render in scroll order with the shrink intro, species cards,
-passport counter, zookeepers and credits. Soundscapes and mini-games are v2 (see `BUILD-PROMPTS.md`).
+v2 — bright, kid-first, "step inside" experience. The visitor is shrunk, then explores
+full-screen habitat **rooms** (Soil → Café → Gut → Waterways → Meet the Zookeepers) via a bottom
+navigator or arrow keys, meeting **animated microbe characters** they tap to collect into a
+passport. Light by default with a **dark-mode toggle**. Soundscapes and mini-games are a later
+pass (see `BUILD-PROMPTS.md`).

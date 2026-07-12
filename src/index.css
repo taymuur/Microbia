@@ -1,60 +1,74 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Exo+2:wght@500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka:wght@400;500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&family=VT323&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ============================================================
-   Design tokens — mirror of src/design-system.md
-   Primitive -> Semantic layers. Component tokens live in the
-   components that use them.
+   Microbia tokens — bright & kid-friendly by default (light),
+   with a full dark mode under [data-theme="dark"].
+   Habitat hues (--c-*) shift between themes so everything that
+   references them adapts automatically.
    ============================================================ */
 :root {
-  /* primitive — abyss */
-  --abyss-900: #05070f;
-  --abyss-800: #0a0e1a;
-  --abyss-700: #121829;
-  --abyss-600: #1a2138;
-  --abyss-500: #273150;
+  /* paper / surfaces (light) */
+  --paper-0: #ffffff; /* cards */
+  --paper-1: #f4f8fd; /* page background */
+  --paper-2: #e7eef7; /* muted surface */
 
-  /* primitive — bioluminescence */
-  --biolum-teal: #2fe6a8;
-  --biolum-cyan: #38e1ff;
-  --biolum-magenta: #ff4fd8;
-  --biolum-violet: #9b7bff;
-  --biolum-amber: #ffb347;
-  --biolum-lime: #8be04a;
+  /* ink (text on light) */
+  --ink-900: #12223a;
+  --ink-600: #445a7c;
+  --ink-400: #7286a4;
 
-  /* primitive — ink */
-  --ink-100: #eaf2ff;
-  --ink-300: #b7c4de;
-  --ink-500: #8da0c4;
-  --ink-700: #5a6b8c;
-  --ink-on-glow: #05070f;
+  /* habitat hues — vivid on light */
+  --c-teal: #10b3a3;
+  --c-lime: #35a854;
+  --c-amber: #f19a1a;
+  --c-magenta: #ec4d97;
+  --c-cyan: #159bd4;
+  --c-violet: #7a5bf0;
 
   /* semantic */
-  --color-bg: var(--abyss-800);
-  --color-bg-deep: var(--abyss-900);
-  --color-surface: var(--abyss-700);
-  --color-surface-raised: var(--abyss-600);
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-fg: var(--ink-100);
-  --color-fg-muted: var(--ink-500);
-  --color-on-accent: var(--ink-on-glow);
-  --color-primary: var(--biolum-teal);
-  --color-accent: var(--biolum-amber);
-  --color-ring: var(--biolum-teal);
+  --color-bg: var(--paper-1);
+  --color-surface: var(--paper-0);
+  --color-surface-2: var(--paper-2);
+  --color-fg: var(--ink-900);
+  --color-fg-muted: var(--ink-600);
+  --color-fg-faint: var(--ink-400);
+  --color-border: rgba(16, 32, 58, 0.12);
+  --color-primary: var(--c-teal);
+  --color-accent: var(--c-amber);
+  --color-on-accent: #3a2400;
+  --color-ring: var(--c-teal);
 
-  /* effect defaults; --glow-hue is overridden per zone/card */
-  --glow-hue: rgba(47, 230, 168, 0.45);
-  --glass-bg: rgba(18, 24, 41, 0.55);
-  --glass-blur: blur(16px) saturate(140%);
-  --scrim: rgba(5, 7, 15, 0.6);
+  --card-shadow: 0 10px 30px rgba(20, 40, 70, 0.14);
+  --scrim: rgba(20, 34, 58, 0.45);
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-  /* motion */
-  --ease-biolum: cubic-bezier(0.16, 1, 0.3, 1);
-  --dur-micro: 180ms;
-  --dur-reveal: 520ms;
+:root[data-theme='dark'] {
+  --paper-0: #121829;
+  --paper-1: #0a0e1a;
+  --paper-2: #1a2138;
+
+  --ink-900: #eaf2ff;
+  --ink-600: #a7b6d4;
+  --ink-400: #64769a;
+
+  /* brighter, glowing hues for dark */
+  --c-teal: #2fe6a8;
+  --c-lime: #8be04a;
+  --c-amber: #ffb347;
+  --c-magenta: #ff4fd8;
+  --c-cyan: #38e1ff;
+  --c-violet: #9b7bff;
+
+  --color-on-accent: #1a1000;
+  --color-border: rgba(255, 255, 255, 0.12);
+  --card-shadow: 0 10px 34px rgba(0, 0, 0, 0.5);
+  --scrim: rgba(5, 7, 15, 0.62);
 }
 
 * {
@@ -62,7 +76,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -76,16 +89,16 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  transition: background-color 0.4s var(--ease-smooth), color 0.4s var(--ease-smooth);
 }
 
-/* Visible focus ring on every interactive element (accessibility). */
+/* Visible focus ring on every interactive element. */
 :where(a, button, [tabindex], input, summary):focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--color-ring);
-  border-radius: 6px;
+  box-shadow: 0 0 0 3px var(--color-bg), 0 0 0 6px var(--color-ring);
+  border-radius: 10px;
 }
 
-/* Skip link */
 .skip-link {
   position: absolute;
   left: -999px;
@@ -101,19 +114,44 @@ body {
   left: 0;
 }
 
-/* Utility: bioluminescent text glow, coloured via --glow-hue. */
-.text-glow {
-  text-shadow: 0 0 18px var(--glow-hue);
+/* ---- friendly idle animations for the microbe art ---- */
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); }
+  50% { transform: translateY(-10px) rotate(calc(var(--tilt, 0deg) * -1)); }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+@keyframes swim {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(14px, -10px); }
+  50% { transform: translate(4px, 10px); }
+  75% { transform: translate(-12px, -6px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+@keyframes rise {
+  0% { transform: translateY(20px); opacity: 0; }
+  15% { opacity: 0.9; }
+  100% { transform: translateY(-120px); opacity: 0; }
+}
+@keyframes sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
 }
 
-/* Reduced motion: strip drift/pulse/parallax and soften transitions. */
+.anim-bob { animation: bob 4s ease-in-out infinite; }
+.anim-wiggle { animation: wiggle 3s ease-in-out infinite; }
+.anim-swim { animation: swim 9s ease-in-out infinite; }
+
+/* Reduced motion: hold everything still. */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;

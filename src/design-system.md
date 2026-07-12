@@ -10,6 +10,33 @@ the real Microbe Zoo.
 
 ---
 
+## 0. Revision — v2: bright, kid‑first, "step inside" (current)
+
+The original system below was **dark‑first bioluminescent**. On request, the product pivoted to
+suit its actual audience — children / STEM outreach — so the **live tokens now differ** from
+§4 in three ways. The live source of truth for tokens is `src/index.css`; this section records
+the deltas and why.
+
+1. **Light by default, dark as a toggle.** The palette is now bright and friendly by default,
+   with the full dark theme kept as an opt‑in `[data-theme="dark"]` toggle (in‑memory only, no
+   storage). The six habitat hues (`--c-teal / lime / amber / magenta / cyan / violet`) shift
+   between vivid‑on‑light and glowing‑on‑dark, so every component adapts automatically. Each hue
+   still maps to a microbe group and a habitat, exactly as designed in §4.1 — only the surface
+   values flipped.
+2. **Typography leans playful.** Display is now **Fredoka** (rounded, friendly) with **Press
+   Start 2P** kept for the wordmark/HUD accent and **Nunito Sans** for body — same reasoning as
+   §4.2 (pixel as a fun accent, a genuinely readable reading face), tuned warmer for kids.
+3. **Interaction model: enter each habitat, don't scroll past it.** Instead of one long scroll,
+   the visitor is "shrunk", then **steps inside** full‑screen habitat rooms (Soil → Café → Gut →
+   Waterways → Zookeepers) via a bottom navigator, meeting **animated microbe characters** they
+   tap to collect. The immersive scenery (soil roots, the gut cross‑section tunnel, waterways,
+   café) and the passport carry over.
+
+Everything else — spacing, motion easings/durations, reduced‑motion handling, accessibility, the
+hue‑per‑group mapping — is unchanged from below.
+
+---
+
 ## 1. How this was built
 
 Two inputs were reconciled into one token set:

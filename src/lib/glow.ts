@@ -1,18 +1,17 @@
-// Maps a glow key to its CSS colour variable and a translucent glow shadow.
-export type GlowKey = 'teal' | 'cyan' | 'magenta' | 'violet' | 'amber' | 'lime';
+// Habitat hue helpers. Hues resolve to CSS vars that shift per theme,
+// so the same key looks vivid on light and glowing on dark.
+export type GlowKey = 'teal' | 'lime' | 'amber' | 'magenta' | 'cyan' | 'violet';
 
-const RGB: Record<GlowKey, string> = {
-  teal: '47, 230, 168',
-  cyan: '56, 225, 255',
-  magenta: '255, 79, 216',
-  violet: '155, 123, 255',
-  amber: '255, 179, 71',
-  lime: '139, 224, 74',
-};
+export const hue = (k: GlowKey) => `var(--c-${k})`;
 
-export const glowColor = (k: GlowKey) => `var(--biolum-${k})`;
-export const glowHue = (k: GlowKey, alpha = 0.45) => `rgba(${RGB[k]}, ${alpha})`;
+/** A translucent version of a hue (for glows, tints, borders). */
+export const hueSoft = (k: GlowKey, pct = 45) =>
+  `color-mix(in srgb, var(--c-${k}) ${pct}%, transparent)`;
 
-/** Inline style setting the --glow-hue custom prop (used by shadow utilities). */
-export const glowVars = (k: GlowKey, alpha = 0.45) =>
-  ({ '--glow-hue': glowHue(k, alpha) }) as React.CSSProperties;
+/** A pastel wash of a hue over the page background (adapts to theme). */
+export const hueWash = (k: GlowKey, pct = 16) =>
+  `color-mix(in srgb, var(--c-${k}) ${pct}%, var(--color-bg))`;
+
+/** Inline style exposing the active hue as --hue / --hue-soft for CSS use. */
+export const hueVars = (k: GlowKey) =>
+  ({ '--hue': `var(--c-${k})`, '--hue-soft': hueSoft(k) }) as React.CSSProperties;
