@@ -147,6 +147,7 @@ body {
 .anim-bob { animation: bob 4s ease-in-out infinite; }
 .anim-wiggle { animation: wiggle 3s ease-in-out infinite; }
 .anim-swim { animation: swim 9s ease-in-out infinite; }
+.anim-blink { animation: blink 5s ease-in-out infinite; transform-box: fill-box; }
 
 /* Reduced motion: hold everything still. */
 @media (prefers-reduced-motion: reduce) {

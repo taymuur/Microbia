@@ -58,9 +58,9 @@ export function SpeciesCard({ microbe, onClose }: { microbe: Microbe; onClose: (
           <div className="p-6 pt-8">
             <div
               className="mx-auto grid h-32 w-32 place-items-center rounded-full"
-              style={{ background: hueWash(microbe.glow, 30), color: hue(microbe.glow) }}
+              style={{ background: hueWash(microbe.glow, 22) }}
             >
-              <MicrobeCritter group={microbe.group} className="h-24 w-24" idle="bob" />
+              <MicrobeCritter species={microbe.id} color={microbe.color} className="h-24 w-24" idle="bob" />
             </div>
 
             <p className="mt-4 text-center font-mono text-lg text-ink-600">Meet the microbe</p>

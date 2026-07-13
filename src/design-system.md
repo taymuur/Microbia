@@ -32,6 +32,15 @@ the deltas and why.
    tap to collect. The immersive scenery (soil roots, the gut cross‑section tunnel, waterways,
    café) and the passport carry over.
 
+4. **Species‑accurate artwork + a 3D immersive background.** Each microbe is now drawn to match
+   its real structure from the "Meet the Microbe" fact sheets (Streptomyces' twisted bead chain,
+   Bifidobacterium's branched Y, the icosahedral phage, budding yeast, the correct flagella, the
+   Euglena eyespot…) in its authentic fact‑sheet colour. The static SVG habitat backdrops were
+   replaced by a real **three.js / react‑three‑fiber** depth‑field: dozens of translucent cells
+   drift in 3D, the field **parallaxes toward the pointer**, and the gut is a receding tunnel of
+   rings. It is theme‑aware, **frozen under reduced motion**, and **lazy‑loaded** so the intro
+   stays light.
+
 Everything else — spacing, motion easings/durations, reduced‑motion handling, accessibility, the
 hue‑per‑group mapping — is unchanged from below.
 
