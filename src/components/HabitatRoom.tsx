@@ -1,13 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { ZoneConfig } from '../data/zones';
 import { microbesByZone, type Microbe, type ZoneId } from '../data/microbes';
 import { usePassport } from '../hooks/usePassport';
 import { useReducedMotion } from '../hooks/useReducedMotion';
-import { ZoneScene } from './scenes/ZoneScene';
 import { MicrobeCritter } from './MicrobeCritter';
 import { SpeciesCard } from './SpeciesCard';
 import { hue, hueVars, hueWash } from '../lib/glow';
+
+// The 3D scene (three.js) is heavy — load it lazily so the intro stays light.
+const Habitat3D = lazy(() => import('./Habitat3D'));
 
 // Scatter spots within the play area (percentages, responsive).
 const SPOTS = [
@@ -38,7 +40,9 @@ export function HabitatRoom({ zone }: { zone: ZoneConfig }) {
       className="relative min-h-[100dvh] w-full overflow-hidden"
       style={hueVars(zone.accent)}
     >
-      <ZoneScene zone={String(zone.id)} />
+      <Suspense fallback={<div className="absolute inset-0" style={{ background: hueWash(zone.accent, 16) }} />}>
+        <Habitat3D zone={String(zone.id)} />
+      </Suspense>
 
       <div className="relative z-10 mx-auto grid min-h-[100dvh] max-w-container gap-6 px-[max(20px,5vw)] pb-28 pt-24 lg:grid-cols-[minmax(0,26rem)_1fr] lg:items-center lg:gap-10">
         {/* Info panel */}
@@ -118,7 +122,7 @@ export function HabitatRoom({ zone }: { zone: ZoneConfig }) {
                   className="grid h-20 w-20 place-items-center rounded-full sm:h-24 sm:w-24"
                   style={{ background: hueWash(m.glow, 26), color: hue(m.glow), animationDelay: `${i * 0.4}s` }}
                 >
-                  <MicrobeCritter group={m.group} idle={IDLES[i % IDLES.length]} className="h-16 w-16 sm:h-20 sm:w-20" />
+                  <MicrobeCritter species={m.id} color={m.color} idle={IDLES[i % IDLES.length]} className="h-16 w-16 sm:h-20 sm:w-20" />
                 </span>
                 <span className="rounded-pill bg-surface px-3 py-1 font-display text-sm font-bold text-ink-900 shadow-card">
                   {collected && <span aria-hidden>✓ </span>}
