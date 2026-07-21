@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import type { Microbe } from '../data/microbes';
 import { usePassport } from '../hooks/usePassport';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useSound } from '../hooks/useSound';
 import { MicrobeCritter } from './MicrobeCritter';
 import { hue, hueVars, hueWash } from '../lib/glow';
 
@@ -16,6 +17,7 @@ const ZONE_LABEL: Record<Microbe['zone'], string> = {
 /** Full "Meet the microbe" card, opened from a critter in a habitat. */
 export function SpeciesCard({ microbe, onClose }: { microbe: Microbe; onClose: () => void }) {
   const { has, collect } = usePassport();
+  const { chime } = useSound();
   const reduced = useReducedMotion();
   const titleId = useId();
   const collected = has(microbe.id);
@@ -84,7 +86,10 @@ export function SpeciesCard({ microbe, onClose }: { microbe: Microbe; onClose: (
 
             <button
               type="button"
-              onClick={() => collect(microbe.id)}
+              onClick={() => {
+                collect(microbe.id);
+                chime();
+              }}
               disabled={collected}
               className="mt-6 w-full rounded-pill px-5 py-3 font-display text-lg font-bold transition duration-200 ease-pop enabled:hover:scale-[1.02] enabled:active:scale-95"
               style={
