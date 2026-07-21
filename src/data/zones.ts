@@ -1,6 +1,6 @@
-// Habitat configuration for the journey. Order: Soil → Café → Gut → Waterways,
-// then Meet the Zookeepers. Copy adapted from CLAUDE.md's Content section —
-// plain, British English, factual.
+// Habitat configuration for the journey. Order: Soil → Gut → Waterways → Café
+// (the gift shop is the exit), then Meet the Zookeepers. Copy adapted from
+// CLAUDE.md's Content section — plain, British English, factual.
 import type { ZoneId } from './microbes';
 
 export type GlowKey = 'teal' | 'cyan' | 'magenta' | 'violet' | 'amber' | 'lime';
@@ -36,22 +36,9 @@ export const ZONES: ZoneConfig[] = [
     hasSpecies: true,
   },
   {
-    id: 'cafe',
-    index: 2,
-    eyebrow: 'Habitat 02 — the café & gift shop',
-    title: 'The Café & Gift Shop',
-    short: 'Café',
-    lede: 'Food grown in the soil arrives here — and a lot of it was made by microbes.',
-    body: [
-      'Bread, cheese, yoghurt, beer — many everyday foods and household products are made by microbes. Grab a bite before you follow the food inward. On your way out, take home a free activity book of experiments to try.',
-    ],
-    accent: 'amber',
-    hasSpecies: true,
-  },
-  {
     id: 'gut',
-    index: 3,
-    eyebrow: 'Habitat 03 — inside you',
+    index: 2,
+    eyebrow: 'Habitat 02 — inside you',
     title: 'The Gut Tunnel',
     short: 'Gut',
     lede: 'Follow the food inward to meet the microbiome that keeps you well.',
@@ -65,8 +52,8 @@ export const ZONES: ZoneConfig[] = [
   },
   {
     id: 'waterways',
-    index: 4,
-    eyebrow: 'Habitat 04 — rivers & seas',
+    index: 3,
+    eyebrow: 'Habitat 03 — rivers & seas',
     title: 'The Waterways',
     short: 'Water',
     lede: 'Dive into water, where microbes help balance the climate.',
@@ -76,6 +63,19 @@ export const ZONES: ZoneConfig[] = [
     research:
       'UEA researchers found that a common ocean alga produces an abundance of a compound called DMSP (dimethylsulfoniopropionate). It breaks down into a gas that creates the characteristic smell of the sea — and plays a vital role in balancing the planet’s climate.',
     accent: 'cyan',
+    hasSpecies: true,
+  },
+  {
+    id: 'cafe',
+    index: 4,
+    eyebrow: 'Last stop — the café & gift shop',
+    title: 'The Café & Gift Shop',
+    short: 'Café',
+    lede: 'On your way out: a lot of the menu, and the gift shop, was made by microbes.',
+    body: [
+      'Bread, cheese, yoghurt, beer — many everyday foods and household products are made by microbes. Grab a bite before you leave, and take home a free activity book of experiments to try.',
+    ],
+    accent: 'amber',
     hasSpecies: true,
   },
 ];

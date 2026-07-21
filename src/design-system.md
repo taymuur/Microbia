@@ -41,6 +41,14 @@ the deltas and why.
    rings. It is theme‑aware, **frozen under reduced motion**, and **lazy‑loaded** so the intro
    stays light.
 
+5. **Per‑habitat 3D scenes, sound, order & the giant poo.** Each habitat now has a
+   *structurally distinct* 3D scene (soil = falling grains past descending roots; gut = a
+   receding tunnel; waterways = bubbles rising to a rippling surface; café = warm foam and big
+   soft bubbles), not just a recolour. **Procedural sound** (Web Audio, no files) adds a per‑
+   habitat ambient bed and a "pop" per microbe / chime on collect — muted by default with a clear
+   toggle. Order is now **Soil → Gut → Waterways → Café (the gift‑shop exit) → Zookeepers**, and
+   the gut features a tappable **giant poo**, a nod to the physical installation's toilet.
+
 Everything else — spacing, motion easings/durations, reduced‑motion handling, accessibility, the
 hue‑per‑group mapping — is unchanged from below.
 

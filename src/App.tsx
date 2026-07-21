@@ -2,26 +2,46 @@ import { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeProvider } from './hooks/useTheme';
 import { PassportProvider } from './hooks/usePassport';
+import { SoundProvider, useSound } from './hooks/useSound';
 import { useReducedMotion } from './hooks/useReducedMotion';
 import { ShrinkIntro } from './components/ShrinkIntro';
 import { HabitatRoom } from './components/HabitatRoom';
 import { Zookeeper } from './components/Zookeeper';
 import { Passport } from './components/Passport';
 import { ThemeToggle } from './components/ThemeToggle';
+import { SoundToggle } from './components/SoundToggle';
 import { HabitatNav } from './components/HabitatNav';
 import { ZONES } from './data/zones';
 
 const TOTAL = ZONES.length + 1; // habitats + zookeepers
 
 export default function App() {
-  // -1 = the shrink-ray intro; 0..TOTAL-1 = the habitat rooms.
-  const [index, setIndex] = useState(-1);
+  return (
+    <ThemeProvider>
+      <SoundProvider>
+        <PassportProvider>
+          <Experience />
+        </PassportProvider>
+      </SoundProvider>
+    </ThemeProvider>
+  );
+}
+
+function Experience() {
+  const [index, setIndex] = useState(-1); // -1 = shrink intro
+  const { setZone } = useSound();
 
   const go = useCallback((i: number) => {
     if (i < 0 || i >= TOTAL) return;
     setIndex(i);
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, []);
+
+  // Ambient sound follows the current stage.
+  useEffect(() => {
+    if (index < 0) return setZone('intro');
+    setZone(index >= ZONES.length ? 'keepers' : (ZONES[index].id as 'soil'));
+  }, [index, setZone]);
 
   // Arrow-key navigation between habitats.
   useEffect(() => {
@@ -36,17 +56,7 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKey);
   }, [index, go]);
 
-  return (
-    <ThemeProvider>
-      <PassportProvider>
-        {index < 0 ? (
-          <ShrinkIntro onEnter={() => go(0)} />
-        ) : (
-          <Tour index={index} go={go} />
-        )}
-      </PassportProvider>
-    </ThemeProvider>
-  );
+  return index < 0 ? <ShrinkIntro onEnter={() => go(0)} /> : <Tour index={index} go={go} />;
 }
 
 function Tour({ index, go }: { index: number; go: (i: number) => void }) {
@@ -71,6 +81,7 @@ function Tour({ index, go }: { index: number; go: (i: number) => void }) {
         </button>
         <div className="flex items-center gap-2">
           <Passport />
+          <SoundToggle />
           <ThemeToggle />
         </div>
       </header>

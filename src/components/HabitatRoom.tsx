@@ -4,7 +4,9 @@ import type { ZoneConfig } from '../data/zones';
 import { microbesByZone, type Microbe, type ZoneId } from '../data/microbes';
 import { usePassport } from '../hooks/usePassport';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { useSound } from '../hooks/useSound';
 import { MicrobeCritter } from './MicrobeCritter';
+import { GiantPoo } from './GiantPoo';
 import { SpeciesCard } from './SpeciesCard';
 import { hue, hueVars, hueWash } from '../lib/glow';
 
@@ -23,7 +25,9 @@ const IDLES = ['bob', 'swim', 'wiggle', 'bob'] as const;
 export function HabitatRoom({ zone }: { zone: ZoneConfig }) {
   const critters = microbesByZone(zone.id as ZoneId);
   const [open, setOpen] = useState<Microbe | null>(null);
+  const [pooTalk, setPooTalk] = useState(false);
   const { has } = usePassport();
+  const { blip } = useSound();
   const reduced = useReducedMotion();
   const headingRef = useRef<HTMLHeadingElement>(null);
 
@@ -108,7 +112,10 @@ export function HabitatRoom({ zone }: { zone: ZoneConfig }) {
               <motion.button
                 key={m.id}
                 type="button"
-                onClick={() => setOpen(m)}
+                onClick={() => {
+                  blip(m.id);
+                  setOpen(m);
+                }}
                 aria-label={`Meet ${m.name}, a ${m.group.toLowerCase()}${collected ? ' (collected)' : ''}`}
                 className="absolute flex w-28 flex-col items-center gap-1 rounded-xl p-2 sm:w-32"
                 style={{ top: spot.top, left: spot.left }}
@@ -131,6 +138,36 @@ export function HabitatRoom({ zone }: { zone: ZoneConfig }) {
               </motion.button>
             );
           })}
+
+          {/* The giant poo — a nod to the Microbe Zoo's toilet. */}
+          {zone.id === 'gut' && (
+            <motion.button
+              type="button"
+              onClick={() => {
+                blip('poo');
+                setPooTalk((v) => !v);
+              }}
+              aria-label="The giant poo — tap for a fun fact"
+              className="absolute bottom-[2%] left-[46%] flex w-24 flex-col items-center gap-1 sm:w-28"
+              initial={reduced ? { opacity: 0 } : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: reduced ? 0 : 0.6, ease: [0.34, 1.56, 0.64, 1] }}
+              whileHover={reduced ? undefined : { scale: 1.06 }}
+              whileTap={reduced ? undefined : { scale: 0.94 }}
+            >
+              {pooTalk && (
+                <span className="mb-1 max-w-[13rem] rounded-lg bg-surface px-3 py-2 text-center font-display text-xs font-semibold text-ink-900 shadow-card">
+                  A big part of poo is living microbes — the gut is that crowded!
+                </span>
+              )}
+              <span className="h-20 w-20 anim-bob sm:h-24 sm:w-24">
+                <GiantPoo />
+              </span>
+              <span className="rounded-pill bg-surface px-3 py-1 font-display text-sm font-bold text-ink-900 shadow-card">
+                Giant Poo
+              </span>
+            </motion.button>
+          )}
         </div>
       </div>
 
