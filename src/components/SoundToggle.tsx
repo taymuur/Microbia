@@ -9,7 +9,7 @@ export function SoundToggle() {
       aria-pressed={enabled}
       aria-label={enabled ? 'Turn sound off' : 'Turn sound on'}
       title={enabled ? 'Sound on' : 'Sound off'}
-      className="grid h-11 w-11 place-items-center rounded-pill border border-[var(--color-border)] bg-surface text-ink-900 shadow-card transition hover:scale-105 active:scale-95"
+      className="mc-slot grid h-11 w-11 place-items-center text-ink-900 transition hover:brightness-110 active:translate-y-px"
     >
       {enabled ? (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
