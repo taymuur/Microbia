@@ -2,7 +2,7 @@
 
 The site is a static Vite build (`npm run build` → `dist/`). Two free options.
 
-## Option A, GitHub Pages (automated, set up in this repo)
+## Option A — GitHub Pages (automated, set up in this repo)
 
 A workflow at `.github/workflows/deploy.yml` builds and publishes on every push to
 `main` or the working branch, so changes go live automatically.
@@ -23,7 +23,7 @@ env var (see `vite.config.ts`); local `npm run dev` stays at `/`.
 > Note: GitHub Pages needs a **public** repo (or a paid plan for private). If the Actions
 > run fails at the deploy step, check the two settings above first.
 
-## Option B, Vercel (primary, per the brief)
+## Option B — Vercel (primary, per the brief)
 
 1. Push the repo to GitHub.
 2. On Vercel, **Add New → Project → Import** this repo.

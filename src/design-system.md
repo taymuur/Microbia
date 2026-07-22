@@ -1,7 +1,7 @@
-# Microbia, Design System
+# Microbia — Design System
 
 > Level‑7 design extraction and reconciled token set for the digital Microbe Zoo.
-> This is the single source of truth for colour, type, spacing and motion. No app code yet ,
+> This is the single source of truth for colour, type, spacing and motion. No app code yet —
 > everything below is tokens + rationale. When a build prompt conflicts with this file, ask first.
 
 British English throughout. Everything here respects the non‑negotiables in `CLAUDE.md`:
@@ -10,10 +10,10 @@ the real Microbe Zoo.
 
 ---
 
-## 0. Revision, v2: bright, kid‑first, "step inside" (current)
+## 0. Revision — v2: bright, kid‑first, "step inside" (current)
 
 The original system below was **dark‑first bioluminescent**. On request, the product pivoted to
-suit its actual audience, children / STEM outreach, so the **live tokens now differ** from
+suit its actual audience — children / STEM outreach — so the **live tokens now differ** from
 §4 in three ways. The live source of truth for tokens is `src/index.css`; this section records
 the deltas and why.
 
@@ -21,10 +21,10 @@ the deltas and why.
    with the full dark theme kept as an opt‑in `[data-theme="dark"]` toggle (in‑memory only, no
    storage). The six habitat hues (`--c-teal / lime / amber / magenta / cyan / violet`) shift
    between vivid‑on‑light and glowing‑on‑dark, so every component adapts automatically. Each hue
-   still maps to a microbe group and a habitat, exactly as designed in §4.1, only the surface
+   still maps to a microbe group and a habitat, exactly as designed in §4.1 — only the surface
    values flipped.
 2. **Typography leans playful.** Display is now **Fredoka** (rounded, friendly) with **Press
-   Start 2P** kept for the wordmark/HUD accent and **Nunito Sans** for body, same reasoning as
+   Start 2P** kept for the wordmark/HUD accent and **Nunito Sans** for body — same reasoning as
    §4.2 (pixel as a fun accent, a genuinely readable reading face), tuned warmer for kids.
 3. **Interaction model: enter each habitat, don't scroll past it.** Instead of one long scroll,
    the visitor is "shrunk", then **steps inside** full‑screen habitat rooms (Soil → Café → Gut →
@@ -45,12 +45,12 @@ the deltas and why.
    *structurally distinct* 3D scene (soil = falling grains past descending roots; gut = a
    receding tunnel; waterways = bubbles rising to a rippling surface; café = warm foam and big
    soft bubbles), not just a recolour. **Procedural sound** (Web Audio, no files) adds a per‑
-   habitat ambient bed and a "pop" per microbe / chime on collect, muted by default with a clear
+   habitat ambient bed and a "pop" per microbe / chime on collect — muted by default with a clear
    toggle. Order is now **Soil → Gut → Waterways → Café (the gift‑shop exit) → Zookeepers**, and
    the gut features a tappable **giant poo**, a nod to the physical installation's toilet.
 
-Everything else, spacing, motion easings/durations, reduced‑motion handling, accessibility, the
-hue‑per‑group mapping, is unchanged from below.
+Everything else — spacing, motion easings/durations, reduced‑motion handling, accessibility, the
+hue‑per‑group mapping — is unchanged from below.
 
 ---
 
@@ -58,10 +58,10 @@ hue‑per‑group mapping, is unchanged from below.
 
 Two inputs were reconciled into one token set:
 
-1. **Reference blueprint**, the two sites the brief admires, studied for their *approach*, not
+1. **Reference blueprint** — the two sites the brief admires, studied for their *approach*, not
    cloned: the Gut Zoomer / *Vibrant Wellness* immersive body‑journey, and *GoodBelly's* playful
    probiotic brand.
-2. **A skill sanity‑check**, the `ui-ux-pro-max` engine run in `--design-system` mode against
+2. **A skill sanity‑check** — the `ui-ux-pro-max` engine run in `--design-system` mode against
    the query *"immersive science education museum interactive nature zoo dark bioluminescent"*,
    with the motion dial high. It confirmed the pattern and style and proposed a palette, font
    pairing and motion tier, which were then adapted to our dark, bioluminescent brief.
@@ -72,14 +72,14 @@ The reconciliation is recorded in §6 so future changes know what was kept, over
 
 ## 2. Reference blueprint (extracted, not copied)
 
-### Gut Zoomer / Vibrant Wellness, *the structure*
-- **Palette:** disciplined and narrow, essentially two blues, light `#8EBEF9` and deep
+### Gut Zoomer / Vibrant Wellness — *the structure*
+- **Palette:** disciplined and narrow — essentially two blues, light `#8EBEF9` and deep
   `#0774C4`, over lots of negative space and depth. Restraint is the lesson: one colour family,
   many values.
 - **Type:** clean, technical sans; generous sizes; data and labels feel clinical and precise.
 - **Spacing / layout:** full‑bleed, cinematic. One continuous scroll *journey* through the body's
   systems rather than a stack of marketing sections.
-- **Motion:** WebGL / Three.js / GSAP. Scroll *is* the narrative, reveals are tied to scroll
+- **Motion:** WebGL / Three.js / GSAP. Scroll *is* the narrative — reveals are tied to scroll
   position, with 3D depth and "unusual navigation". Storytelling over UI chrome.
 - **Distinctive because:** it treats a health test as a guided expedition. That maps almost
   one‑to‑one onto our soil → gut → waterways tunnels.
@@ -87,9 +87,9 @@ The reconciliation is recorded in §6 so future changes know what was kept, over
 **We take:** the continuous scroll‑journey spine, palette discipline (few hues, many values),
 and depth/atmosphere. **We leave:** the clinical light‑blue mood and the heavy 3D dependency.
 
-### GoodBelly, *the warmth*
+### GoodBelly — *the warmth*
 - **Palette:** bright, friendly, high‑energy; not afraid of colour.
-- **Type:** rounded, playful, approachable, reads as "fun", never a lecture.
+- **Type:** rounded, playful, approachable — reads as "fun", never a lecture.
 - **Layout:** illustration‑led; information served in **bite‑sized morsels**, not walls of text.
 - **Mood:** "make caring for your belly fun, delicious and effortless." Human and unintimidating.
 - **Distinctive because:** it makes microbiology *likeable* for a general audience.
@@ -104,13 +104,13 @@ clinical scan or a bright shop.
 
 ---
 
-## 3. Mood, in three sentences
+## 3. Mood — in three sentences
 
 You've been shrunk below the visible world, and the only light down here is the light the
-microbes make themselves, cool teal and cyan, a flush of gut‑tunnel magenta, the violet glow of a
+microbes make themselves — cool teal and cyan, a flush of gut‑tunnel magenta, the violet glow of a
 phage. It should feel like a night dive into a living, breathing zoo: dark and quiet at the edges,
 then a species drifts into focus and *glows*. Wonder first, playfulness close behind, never a
-lecture, a nature documentary shot at the scale of the invisible.
+lecture — a nature documentary shot at the scale of the invisible.
 
 ---
 
@@ -129,7 +129,7 @@ sense of depth); the darkest surface is a very dark blue.
 Each glow hue also does double duty as the identity colour for one microbe group, so the four
 groups in the cast read as four kinds of light.
 
-#### Primitive, abyss (backgrounds & surfaces, deep → raised)
+#### Primitive — abyss (backgrounds & surfaces, deep → raised)
 | Token | Hex | Use |
 |-------|-----|-----|
 | `--abyss-900` | `#05070F` | Deepest void; page base behind everything |
@@ -138,7 +138,7 @@ groups in the cast read as four kinds of light.
 | `--abyss-600` | `#1A2138` | Raised surface, hover fill, glass base |
 | `--abyss-500` | `#273150` | Hairline‑lifted borders, inactive controls |
 
-#### Primitive, bioluminescence (the glow palette)
+#### Primitive — bioluminescence (the glow palette)
 | Token | Hex | Glow (for shadows/borders) | Microbe group |
 |-------|-----|-----|-----|
 | `--biolum-teal` | `#2FE6A8` | `rgba(47,230,168,.45)` | **Bacteria** (signature / soil) |
@@ -148,13 +148,13 @@ groups in the cast read as four kinds of light.
 | `--biolum-amber` | `#FFB347` | `rgba(255,179,71,.45)`  | **Fungi** + warm CTA / café |
 | `--biolum-lime` | `#8BE04A` | `rgba(139,224,74,.40)`  | Living/organic accent, "collect" success |
 
-#### Primitive, ink (text on dark)
+#### Primitive — ink (text on dark)
 | Token | Hex | Contrast on `--abyss-800` |
 |-------|-----|-----|
-| `--ink-100` | `#EAF2FF` | 17.1:1, primary text |
-| `--ink-300` | `#B7C4DE` | 11.0:1, strong secondary |
-| `--ink-500` | `#8DA0C4` | 7.3:1, muted / captions (comfortably ≥ AA body) |
-| `--ink-700` | `#5A6B8C` | 3.6:1, disabled / faint labels only (never body) |
+| `--ink-100` | `#EAF2FF` | 17.1:1 — primary text |
+| `--ink-300` | `#B7C4DE` | 11.0:1 — strong secondary |
+| `--ink-500` | `#8DA0C4` | 7.3:1 — muted / captions (comfortably ≥ AA body) |
+| `--ink-700` | `#5A6B8C` | 3.6:1 — disabled / faint labels only (never body) |
 | `--ink-on-glow` | `#05070F` | dark ink for text on bright bioluminescent fills |
 
 #### Semantic
@@ -182,7 +182,7 @@ groups in the cast read as four kinds of light.
   --color-destructive:   #FF5C6C;
   --color-ring:          var(--biolum-teal);   /* focus ring */
 
-  /* zone accents, one hue per journey zone */
+  /* zone accents — one hue per journey zone */
   --zone-entrance:  var(--biolum-teal);
   --zone-soil:      var(--biolum-lime);
   --zone-gut:       var(--biolum-magenta);
@@ -198,7 +198,7 @@ groups in the cast read as four kinds of light.
 - Functional colour is never colour‑alone: pair success/error/zone with an icon or label
   (`color-not-decorative-only`).
 - Each zone tints its section (border‑glow, headline, particles) with its zone accent so the
-  visitor always knows which habitat they're in, but the base stays `--color-bg` for continuity.
+  visitor always knows which habitat they're in — but the base stays `--color-bg` for continuity.
 - Light mode is **out of scope**: this product is dark‑primary by design (Immersive pattern).
 
 ### 4.2 Typography
@@ -219,7 +219,7 @@ long‑form reading in a genuine text face. The skill offered *Press Start 2P + 
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Exo+2:wght@500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&family=VT323&display=swap');
 
 :root {
-  --font-pixel:   'Press Start 2P', monospace;   /* never for body, wide, low legibility */
+  --font-pixel:   'Press Start 2P', monospace;   /* never for body — wide, low legibility */
   --font-display: 'Exo 2', system-ui, sans-serif;
   --font-body:    'Nunito Sans', system-ui, sans-serif;
   --font-mono:    'VT323', monospace;
@@ -229,7 +229,7 @@ long‑form reading in a genuine text face. The skill offered *Press Start 2P + 
 **Type scale** (rem, base 16px, ~1.25 major‑third for display; body stays a comfortable measure)
 | Token | Size | Line‑height | Typical use |
 |-------|------|-------------|-------------|
-| `--text-pixel-hero` | clamp(1.75rem, 6vw, 3.5rem) | 1.3 | Hero pixel wordmark (Press Start 2P runs large/wide, size down, never up) |
+| `--text-pixel-hero` | clamp(1.75rem, 6vw, 3.5rem) | 1.3 | Hero pixel wordmark (Press Start 2P runs large/wide — size down, never up) |
 | `--text-pixel-label`| 0.625rem (10px) | 1.4 | HUD/counter pixel labels; letter‑spacing 0 |
 | `--text-display-xl` | clamp(2rem, 5vw, 3.25rem) | 1.1 | Zone titles (Exo 2) |
 | `--text-display-lg` | 1.75rem | 1.15 | Section headings |
@@ -237,19 +237,19 @@ long‑form reading in a genuine text face. The skill offered *Press Start 2P + 
 | `--text-body-lg` | 1.125rem | 1.6 | Lead paragraphs |
 | `--text-body` | 1rem (16px min) | 1.6 | Default body |
 | `--text-body-sm` | 0.875rem | 1.55 | Captions, footnotes |
-| `--text-mono` | 1rem (VT323 reads small, keep ≥16px) | 1.4 | Card meta, terminal labels |
+| `--text-mono` | 1rem (VT323 reads small — keep ≥16px) | 1.4 | Card meta, terminal labels |
 
 **Type rules**
 - Body ≥ 16px, line‑height 1.5–1.75, measure 60–75ch desktop / 35–60ch mobile.
 - Weight carries hierarchy: display 600–700, body 400, labels 600.
-- Pixel and terminal faces are decorative voices, keep them to short strings; never set a
+- Pixel and terminal faces are decorative voices — keep them to short strings; never set a
   paragraph in Press Start 2P or VT323.
 - `font-display: swap`; preload only Nunito Sans (the reading face). Pixel/display fonts load
   non‑blocking.
 
 ### 4.3 Spacing
 
-4px base unit, 8px rhythm, a single scale for padding, gaps and section spacing.
+4px base unit, 8px rhythm — a single scale for padding, gaps and section spacing.
 
 ```css
 :root {
@@ -286,7 +286,7 @@ The "bioluminescent" look lives in shadows and borders, not fills.
 - Interactive/lit elements carry a coloured glow in their zone/microbe hue; resting elements do not
   (glow signals "alive / interactive").
 - Glassmorphism for HUD, passport and species cards (frosted `--glass-bg` + `--glass-blur`), used to
-  indicate a floating layer above the scene, not as blanket decoration.
+  indicate a floating layer above the scene — not as blanket decoration.
 - Ambient particle/spore fields are low‑opacity and slow; they must never sit behind text at a
   contrast‑reducing opacity.
 
@@ -294,7 +294,7 @@ The "bioluminescent" look lives in shadows and borders, not fills.
 
 ```css
 :root {
-  /* primary button, e.g. "Shrink me", "Collect" */
+  /* primary button — e.g. "Shrink me", "Collect" */
   --btn-primary-bg: var(--color-accent);
   --btn-primary-fg: var(--color-on-accent);
   --btn-primary-glow: var(--glow-md);          /* amber glow */
@@ -319,7 +319,7 @@ The "bioluminescent" look lives in shadows and borders, not fills.
   --hud-fg: var(--biolum-teal);
   --hud-bg: var(--glass-bg);
 
-  /* focus ring, accessibility, always visible */
+  /* focus ring — accessibility, always visible */
   --focus-ring: 0 0 0 3px var(--color-ring);
 }
 ```
@@ -330,7 +330,7 @@ Component state pattern:
 | Primary bg | `--color-accent` | `--btn-primary-bg-hover` | same + scale 0.97 | `--abyss-600` |
 | Primary fg | `--color-on-accent` | `--color-on-accent` | `--color-on-accent` | `--ink-700` |
 | Glow | `--glow-md` | `--glow-lg` | `--glow-sm` | none |
-| Focus |, |, |, | `--focus-ring` on keyboard focus (all states) |
+| Focus | — | — | — | `--focus-ring` on keyboard focus (all states) |
 
 ---
 
@@ -342,11 +342,11 @@ never decoration; one to two key elements move per view.
 ### 5.1 Tokens
 ```css
 :root {
-  --ease-biolum: cubic-bezier(0.16, 1, 0.3, 1);  /* expo.out, the house easing */
+  --ease-biolum: cubic-bezier(0.16, 1, 0.3, 1);  /* expo.out — the house easing */
   --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);  /* exits */
   --dur-micro:   180ms;   /* hovers, taps, toggles (150–300ms) */
   --dur-reveal:  520ms;   /* section/element reveals (≤ ~600ms) */
-  --dur-exit:    340ms;   /* ~65% of reveal, exits feel snappier */
+  --dur-exit:    340ms;   /* ~65% of reveal — exits feel snappier */
   --dur-shrink:  800ms;   /* the signature shrink transition */
   --spring: { damping: 20, stiffness: 90 };       /* Framer Motion modals/cards */
 }
@@ -355,21 +355,21 @@ never decoration; one to two key elements move per view.
 ### 5.2 Tiers (how reveals *feel*)
 1. **Ambient (always on):** slow drifting spores/particles and gentle glow pulses. Barely‑there,
    loops, no scroll dependency. This is the "living zoo" heartbeat.
-2. **Shrink (signature, entrance only):** the visitor is "shrunk", a scale/zoom transition
+2. **Shrink (signature, entrance only):** the visitor is "shrunk" — a scale/zoom transition
    (`scale` + blur pull) on entry, `--dur-shrink`, `--ease-biolum`. Under reduced‑motion this
    becomes a simple cross‑fade.
 3. **Reveal (per zone, scroll‑driven):** GSAP ScrollTrigger. Descend a tunnel → layers parallax and
    headlines/cards stagger in. Scrub‑tied where it reads as travel; `toggleActions:
-   'play none none reverse'` for enter‑reveals. **Pin at most 1–2 zones**, over‑pinning fights
+   'play none none reverse'` for enter‑reveals. **Pin at most 1–2 zones** — over‑pinning fights
    mobile scroll. Stagger children 0.06–0.08s, max ~8 at a time.
 4. **Micro (interaction):** hover glow bloom, press scale 0.97→1.0, card open (scale+fade from its
    trigger for spatial context), passport counter tick. All `--dur-micro`, `--ease-biolum`.
 
 ### 5.3 Rules
-- `transform`/`opacity` only, never animate width/height/top/left (no CLS, 60fps).
+- `transform`/`opacity` only — never animate width/height/top/left (no CLS, 60fps).
 - Enter with ease‑out (`--ease-biolum`), exit with ease‑in, exits ~65% of enter duration.
 - Every animation must be interruptible; never block input during motion.
-- Headline character‑splits (SplitText) are optional flourish only, SplitText is a paid GSAP
+- Headline character‑splits (SplitText) are optional flourish only — SplitText is a paid GSAP
   plugin, so **ship a plain fade fallback** and never split more than a short headline.
 - Recalc `ScrollTrigger.refresh()` after images/fonts load; scope triggers to their section.
 
@@ -387,11 +387,11 @@ What the `ui-ux-pro-max --design-system` engine returned, and what we did with i
 
 | Dimension | Skill said | Decision |
 |-----------|-----------|----------|
-| **Pattern** | Immersive / Interactive Experience, dark bg, highlight interactive, guided tour, skip option, CTA after completion | **Kept wholesale.** It's our scroll journey. Adds the requirement for a **skip/"jump to zone"** affordance and a CTA after the tour. |
-| **Style** | Modern Dark (Cinema Mobile), cinematic, ambient light, glassmorphism, glow, blur, atmospheric; *avoid pure `#000`* | **Kept.** Drives §4.4. Honoured the `#000` warning (`--abyss-900` = `#05070F`). |
+| **Pattern** | Immersive / Interactive Experience — dark bg, highlight interactive, guided tour, skip option, CTA after completion | **Kept wholesale.** It's our scroll journey. Adds the requirement for a **skip/"jump to zone"** affordance and a CTA after the tour. |
+| **Style** | Modern Dark (Cinema Mobile) — cinematic, ambient light, glassmorphism, glow, blur, atmospheric; *avoid pure `#000`* | **Kept.** Drives §4.4. Honoured the `#000` warning (`--abyss-900` = `#05070F`). |
 | **Palette** | A *light* science‑green scheme (`#15803D` on `#F0FDF4`) | **Overridden.** Our brief is dark‑bioluminescent, so the green became `--biolum-teal` (kept as signature, and it echoes the real Microbe Zoo teal), the background flipped to `--abyss` indigo‑black, and cyan/magenta/violet/amber glows were added from the installation's actual lighting and the four microbe groups. Amber CTA (`#D97706`→`#FFB347`) retained from the skill's accent. |
 | **Typography** | *Exo + Roboto Mono* (science) as default; *Press Start 2P + VT323* (pixel) available | **Blended.** Exo 2 kept as display/subhead; pixel promoted to the HUD/hero voice per the user's "something like pixel"; Nunito Sans added for genuinely readable body (accessibility + `CLAUDE.md` prose mandate); VT323 kept for small terminal labels. |
-| **Motion** | Complex tier, expo.out, Flip page transitions 500–800ms, spring modals, scrub reveals, scale‑press 0.97 | **Kept**, mapped to §5. The 500–800ms Flip window became our `--dur-shrink` (800ms) signature. Added mandatory reduced‑motion fallbacks. |
+| **Motion** | Complex tier — expo.out, Flip page transitions 500–800ms, spring modals, scrub reveals, scale‑press 0.97 | **Kept**, mapped to §5. The 500–800ms Flip window became our `--dur-shrink` (800ms) signature. Added mandatory reduced‑motion fallbacks. |
 | **Anti‑patterns** | Cluttered layout; no offline access; emoji‑as‑icons; removing focus rings; neon accents unchecked for contrast | **Adopted as guardrails:** SVG icons only; visible focus ring always; neon = light/large only, never body text; bite‑sized content (GoodBelly) to avoid clutter. |
 
 ---
@@ -399,7 +399,7 @@ What the `ui-ux-pro-max --design-system` engine returned, and what we did with i
 ## 7. Accessibility & QA checklist (per token set)
 
 - [ ] Body text ≥ 16px, contrast ≥ 4.5:1 (`--ink-100`/`--ink-500` on `--abyss` verified AA).
-- [ ] Neon hues used only for large text/UI glyphs (≥3:1), glow, and decoration, never body copy.
+- [ ] Neon hues used only for large text/UI glyphs (≥3:1), glow, and decoration — never body copy.
 - [ ] Every focusable element shows `--focus-ring`; keyboard order matches visual order.
 - [ ] `prefers-reduced-motion` fully implemented (§5.4); content readable with motion off.
 - [ ] Colour never the sole signal (zone/success/error also carry icon or label).
@@ -415,19 +415,3 @@ What the `ui-ux-pro-max --design-system` engine returned, and what we did with i
 adapted from the ui‑ux‑pro‑max design‑system engine and the referenced Gut Zoomer / GoodBelly
 blueprints. A fan‑made tribute to the Microbe Zoo by the Centre for Microbial Interactions & SAW
 Trust, Norwich Research Park.*
-
----
-
-## Revision, Minecraft edition (current)
-
-The product was reskinned to a Minecraft aesthetic for a stakeholder demo:
-
-- Blocky, voxel 3D scenes (one per stage) rendered by a single persistent three.js
-  canvas, so every stage reliably shows its own biome (soil, cafe, mouth, gut, poo, water).
-- Pixel type (Press Start 2P for titles and UI, VT323 for body), beveled grey GUI panels,
-  inventory-slot framing, and a hotbar-style stage navigator.
-- Stage order: Soil, Cafe, Mouth, Gut, Poo, Waterways, then Meet the Scientists. The mouth
-  and poo are their own stages; the gift shop was dropped.
-- Copy contains no em dashes. Wording is "inspired by" the Microbe Zoo with full credit to the
-  Centre for Microbial Interactions and the SAW Trust; a "Built with Claude Cowork" credit sits
-  in the footer.

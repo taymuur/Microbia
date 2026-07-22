@@ -1,4 +1,4 @@
-// The giant poo, a nod to the physical Microbe Zoo's toilet. A cheerful,
+// The giant poo — a nod to the physical Microbe Zoo's toilet. A cheerful,
 // tappable character in the gut, with a light (true, non-numeric) message.
 export function GiantPoo({ className }: { className?: string }) {
   return (

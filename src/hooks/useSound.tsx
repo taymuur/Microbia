@@ -1,10 +1,10 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
 
-// Procedural sound, synthesised with the Web Audio API, so there are no audio
+// Procedural sound — synthesised with the Web Audio API, so there are no audio
 // files to ship and it works offline. Muted by default (no autoplay); the toggle
 // click is the user gesture that unlocks audio. Each habitat gets its own ambient
 // bed and each microbe a little "pop".
-type Zone = 'soil' | 'cafe' | 'mouth' | 'gut' | 'poo' | 'waterways' | 'keepers' | 'intro';
+type Zone = 'soil' | 'gut' | 'waterways' | 'cafe' | 'keepers' | 'intro';
 
 function hash(s: string) {
   let h = 0;
@@ -129,14 +129,6 @@ class SoundEngine {
       // warm, cosy fifth
       this.osc('sine', 220, lp);
       this.osc('triangle', 330, lp);
-    } else if (zone === 'mouth') {
-      // soft, breathy warmth
-      this.osc('sine', 174, lp);
-      this.osc('sine', 233, lp);
-    } else if (zone === 'poo') {
-      // low, comic squelch
-      this.osc('sine', 70, lp);
-      this.osc('sine', 78, lp);
     } else if (zone === 'keepers') {
       this.osc('sine', 174, lp);
       this.osc('sine', 261, lp);

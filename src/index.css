@@ -1,164 +1,102 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka:wght@400;500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&family=VT323&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ============================================================
-   Microbia, Minecraft edition.
-   Blocky, pixel-font, beveled GUI. Day (light) by default with a
-   night (dark) toggle. Tokens keep the same names the components
-   already use, remapped to a Minecraft palette.
+   Microbia tokens — bright & kid-friendly by default (light),
+   with a full dark mode under [data-theme="dark"].
+   Habitat hues (--c-*) shift between themes so everything that
+   references them adapts automatically.
    ============================================================ */
 :root {
-  /* Minecraft-ish blocks */
-  --mc-sky: #8fb9e8;
-  --mc-grass: #7fb238;
-  --mc-dirt: #79553a;
-  --mc-stone: #8b8b8b;
-  --mc-wood: #b58b52;
-  --mc-panel: #c6c6c6;
-  --mc-panel-2: #a9a9a9;
-  --mc-slot: #8b8b8b;
-  --mc-ink: #2b2b2b;
+  /* paper / surfaces (light) */
+  --paper-0: #ffffff; /* cards */
+  --paper-1: #f4f8fd; /* page background */
+  --paper-2: #e7eef7; /* muted surface */
 
-  /* semantic (used across components) */
-  --paper-0: var(--mc-panel);   /* GUI panel */
-  --paper-1: var(--mc-sky);     /* page background (behind the 3D world) */
-  --paper-2: var(--mc-panel-2);
-  --ink-900: #23262b;
-  --ink-600: #4c4c4c;
-  --ink-400: #6d6d6d;
+  /* ink (text on light) */
+  --ink-900: #12223a;
+  --ink-600: #445a7c;
+  --ink-400: #7286a4;
 
+  /* habitat hues — vivid on light */
+  --c-teal: #10b3a3;
+  --c-lime: #35a854;
+  --c-amber: #f19a1a;
+  --c-magenta: #ec4d97;
+  --c-cyan: #159bd4;
+  --c-violet: #7a5bf0;
+
+  /* semantic */
   --color-bg: var(--paper-1);
   --color-surface: var(--paper-0);
   --color-surface-2: var(--paper-2);
   --color-fg: var(--ink-900);
   --color-fg-muted: var(--ink-600);
   --color-fg-faint: var(--ink-400);
-  --color-border: #23262b;
-  --color-on-accent: #ffffff;
+  --color-border: rgba(16, 32, 58, 0.12);
+  --color-primary: var(--c-teal);
+  --color-accent: var(--c-amber);
+  --color-on-accent: #3a2400;
+  --color-ring: var(--c-teal);
 
-  /* habitat accent hues (also microbe group colours) */
-  --c-teal: #17997e;
-  --c-lime: #5aa832;
-  --c-amber: #d98a2b;
-  --c-magenta: #c94f8f;
-  --c-cyan: #2f8fd0;
-  --c-violet: #7a5bd0;
-  --color-primary: var(--c-lime);
-  --color-accent: var(--c-lime);
-  --color-ring: #ffffff;
-
-  --card-shadow: 4px 4px 0 rgba(0, 0, 0, 0.28);
-  --scrim: rgba(15, 20, 28, 0.6);
-  --pixel-shadow: 2px 2px 0 rgba(0, 0, 0, 0.45);
+  --card-shadow: 0 10px 30px rgba(20, 40, 70, 0.14);
+  --scrim: rgba(20, 34, 58, 0.45);
   --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root[data-theme='dark'] {
-  --mc-sky: #0c1626;
-  --mc-panel: #3a3a3a;
-  --mc-panel-2: #2a2a2a;
-  --mc-ink: #e8e8e8;
+  --paper-0: #121829;
+  --paper-1: #0a0e1a;
+  --paper-2: #1a2138;
 
-  --paper-0: #3a3a3a;
-  --paper-1: #0c1626;
-  --paper-2: #262626;
-  --ink-900: #eef1f6;
-  --ink-600: #b6bcc7;
-  --ink-400: #8a93a3;
-  --color-border: #000000;
+  --ink-900: #eaf2ff;
+  --ink-600: #a7b6d4;
+  --ink-400: #64769a;
 
+  /* brighter, glowing hues for dark */
   --c-teal: #2fe6a8;
   --c-lime: #8be04a;
   --c-amber: #ffb347;
-  --c-magenta: #ff6fc4;
-  --c-cyan: #46c8ff;
-  --c-violet: #a98bff;
-  --card-shadow: 4px 4px 0 rgba(0, 0, 0, 0.55);
+  --c-magenta: #ff4fd8;
+  --c-cyan: #38e1ff;
+  --c-violet: #9b7bff;
+
+  --color-on-accent: #1a1000;
+  --color-border: rgba(255, 255, 255, 0.12);
+  --card-shadow: 0 10px 34px rgba(0, 0, 0, 0.5);
+  --scrim: rgba(5, 7, 15, 0.62);
 }
 
 * {
   box-sizing: border-box;
 }
+
 html {
   -webkit-text-size-adjust: 100%;
-}
-img,
-svg {
-  image-rendering: pixelated;
 }
 
 body {
   margin: 0;
   background: var(--color-bg);
   color: var(--color-fg);
-  font-family: 'VT323', 'Nunito Sans', system-ui, monospace;
-  font-size: 20px;
-  line-height: 1.5;
-  letter-spacing: 0.3px;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
   transition: background-color 0.4s var(--ease-smooth), color 0.4s var(--ease-smooth);
 }
 
-/* ---- Minecraft GUI primitives ---- */
-.mc-panel {
-  background: var(--color-surface);
-  border: 3px solid var(--color-border);
-  box-shadow: inset 3px 3px 0 rgba(255, 255, 255, 0.55), inset -3px -3px 0 rgba(0, 0, 0, 0.3), var(--card-shadow);
-  border-radius: 0;
-}
-:root[data-theme='dark'] .mc-panel {
-  box-shadow: inset 3px 3px 0 rgba(255, 255, 255, 0.14), inset -3px -3px 0 rgba(0, 0, 0, 0.55), var(--card-shadow);
-}
-
-.mc-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: var(--mc-stone);
-  color: #fff;
-  font-family: 'Press Start 2P', monospace;
-  text-shadow: var(--pixel-shadow);
-  border: 3px solid var(--color-border);
-  box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.4), inset -2px -2px 0 rgba(0, 0, 0, 0.4);
-  border-radius: 0;
-  cursor: pointer;
-  transition: filter 0.08s, transform 0.08s;
-}
-.mc-btn:hover {
-  filter: brightness(1.12) saturate(1.1);
-}
-.mc-btn:active {
-  box-shadow: inset -2px -2px 0 rgba(255, 255, 255, 0.35), inset 2px 2px 0 rgba(0, 0, 0, 0.4);
-  transform: translateY(1px);
-}
-.mc-btn[disabled] {
-  filter: grayscale(0.5) brightness(0.85);
-  cursor: default;
-}
-
-.mc-slot {
-  background: var(--mc-slot);
-  border: 3px solid var(--color-border);
-  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.35), inset -2px -2px 0 rgba(255, 255, 255, 0.35);
-  border-radius: 0;
-}
-
-.pixel-title {
-  font-family: 'Press Start 2P', monospace;
-  text-shadow: var(--pixel-shadow);
-  line-height: 1.35;
-}
-
-/* Focus ring: a crisp pixel outline (accessibility). */
+/* Visible focus ring on every interactive element. */
 :where(a, button, [tabindex], input, summary):focus-visible {
-  outline: 3px solid #fff;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 6px var(--color-border);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-bg), 0 0 0 6px var(--color-ring);
+  border-radius: 10px;
 }
 
 .skip-link {
@@ -166,26 +104,52 @@ body {
   left: -999px;
   top: 0;
   z-index: 200;
-  background: var(--c-lime);
-  color: #10250a;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
   padding: 12px 20px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
+  border-radius: 0 0 12px 0;
+  font-weight: 700;
 }
 .skip-link:focus {
   left: 0;
 }
 
-/* ---- idle animations for the microbe art ---- */
-@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-@keyframes wiggle { 0%,100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
-@keyframes swim { 0% { transform: translate(0,0);} 25%{transform:translate(12px,-8px);} 50%{transform:translate(3px,9px);} 75%{transform:translate(-10px,-5px);} 100%{transform:translate(0,0);} }
-@keyframes blink { 0%,92%,100% { transform: scaleY(1);} 95% { transform: scaleY(0.1);} }
-.anim-bob { animation: bob 3.5s steps(6, end) infinite; }
-.anim-wiggle { animation: wiggle 2.4s steps(6, end) infinite; }
+/* ---- friendly idle animations for the microbe art ---- */
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); }
+  50% { transform: translateY(-10px) rotate(calc(var(--tilt, 0deg) * -1)); }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+@keyframes swim {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(14px, -10px); }
+  50% { transform: translate(4px, 10px); }
+  75% { transform: translate(-12px, -6px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+@keyframes rise {
+  0% { transform: translateY(20px); opacity: 0; }
+  15% { opacity: 0.9; }
+  100% { transform: translateY(-120px); opacity: 0; }
+}
+@keyframes sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+.anim-bob { animation: bob 4s ease-in-out infinite; }
+.anim-wiggle { animation: wiggle 3s ease-in-out infinite; }
 .anim-swim { animation: swim 9s ease-in-out infinite; }
 .anim-blink { animation: blink 5s ease-in-out infinite; transform-box: fill-box; }
 
+/* Reduced motion: hold everything still. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
