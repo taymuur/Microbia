@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 
 // Light by default (kid-friendly). Dark mode is an opt-in toggle.
-// In-memory only, no localStorage, per CLAUDE.md.
+// In-memory only — no localStorage, per CLAUDE.md.
 type Theme = 'light' | 'dark';
 
 interface ThemeState {
