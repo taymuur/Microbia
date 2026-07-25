@@ -9,9 +9,11 @@ import { hue, hueVars, hueWash } from '../lib/glow';
 
 const ZONE_LABEL: Record<Microbe['zone'], string> = {
   soil: 'Soil',
-  gut: 'Gut',
-  waterways: 'Waterways',
   cafe: 'Café',
+  mouth: 'Mouth',
+  gut: 'Gut',
+  poo: 'Poo',
+  waterways: 'Waterways',
 };
 
 /** Full "Meet the microbe" card, opened from a critter in a habitat. */

@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeProvider } from './hooks/useTheme';
+import { SkinProvider, useSkin } from './hooks/useSkin';
 import { PassportProvider } from './hooks/usePassport';
 import { SoundProvider, useSound } from './hooks/useSound';
 import { useReducedMotion } from './hooks/useReducedMotion';
@@ -10,19 +11,26 @@ import { Zookeeper } from './components/Zookeeper';
 import { Passport } from './components/Passport';
 import { ThemeToggle } from './components/ThemeToggle';
 import { SoundToggle } from './components/SoundToggle';
+import { SkinToggle } from './components/SkinToggle';
 import { HabitatNav } from './components/HabitatNav';
 import { ZONES } from './data/zones';
 
-const TOTAL = ZONES.length + 1; // habitats + zookeepers
+// One persistent 3D canvas for the whole tour (loaded lazily). A single WebGL
+// context means every stage reliably renders its own scene.
+const Habitat3D = lazy(() => import('./components/Habitat3D'));
+
+const TOTAL = ZONES.length + 1; // stages + scientists
 
 export default function App() {
   return (
     <ThemeProvider>
-      <SoundProvider>
-        <PassportProvider>
-          <Experience />
-        </PassportProvider>
-      </SoundProvider>
+      <SkinProvider>
+        <SoundProvider>
+          <PassportProvider>
+            <Experience />
+          </PassportProvider>
+        </SoundProvider>
+      </SkinProvider>
     </ThemeProvider>
   );
 }
@@ -37,13 +45,11 @@ function Experience() {
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, []);
 
-  // Ambient sound follows the current stage.
   useEffect(() => {
     if (index < 0) return setZone('intro');
     setZone(index >= ZONES.length ? 'keepers' : (ZONES[index].id as 'soil'));
   }, [index, setZone]);
 
-  // Arrow-key navigation between habitats.
   useEffect(() => {
     if (index < 0) return;
     const onKey = (e: KeyboardEvent) => {
@@ -61,13 +67,22 @@ function Experience() {
 
 function Tour({ index, go }: { index: number; go: (i: number) => void }) {
   const reduced = useReducedMotion();
+  const { skin } = useSkin();
   const isKeepers = index >= ZONES.length;
+  const zoneId = isKeepers ? 'keepers' : String(ZONES[index].id);
 
   return (
     <>
       <a href="#main" className="skip-link">
-        Skip to the habitat
+        Skip to the stage
       </a>
+
+      {/* Persistent 3D world behind everything */}
+      <div className="pointer-events-none fixed inset-0 z-0" style={{ background: 'var(--color-bg)' }}>
+        <Suspense fallback={null}>
+          <Habitat3D zone={zoneId} voxel={skin === 'blocks'} />
+        </Suspense>
+      </div>
 
       {/* Top HUD */}
       <header className="fixed inset-x-0 top-0 z-40 flex items-center justify-between gap-3 px-[max(16px,4vw)] py-3">
@@ -75,33 +90,32 @@ function Tour({ index, go }: { index: number; go: (i: number) => void }) {
           type="button"
           onClick={() => go(0)}
           className="rounded-pill bg-surface/85 px-4 py-2 font-pixel text-pixel-label text-ink-900 shadow-card backdrop-blur"
-          aria-label="Microbia — back to the start of the tour"
+          aria-label="Microbia, back to the start"
         >
           MICROBIA
         </button>
         <div className="flex items-center gap-2">
           <Passport />
+          <SkinToggle />
           <SoundToggle />
           <ThemeToggle />
         </div>
       </header>
 
-      {/* The room */}
-      <main id="main">
+      <main id="main" className="relative z-10">
         <AnimatePresence mode="wait">
           <motion.div
             key={index}
             initial={reduced ? { opacity: 0 } : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? { opacity: 0 } : { opacity: 0, y: -16 }}
-            transition={{ duration: reduced ? 0 : 0.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: reduced ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] }}
           >
             {isKeepers ? <Zookeeper /> : <HabitatRoom zone={ZONES[index]} />}
           </motion.div>
         </AnimatePresence>
       </main>
 
-      {/* Bottom navigator */}
       <div className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center px-4">
         <HabitatNav index={index} onGo={go} />
       </div>
