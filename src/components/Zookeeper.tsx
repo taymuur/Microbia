@@ -4,7 +4,7 @@ import { useReducedMotion } from '../hooks/useReducedMotion';
 import { Footer } from './Footer';
 import { hue, hueVars, hueWash } from '../lib/glow';
 
-/** Final stop: "Meet the Zookeepers" — the real research groups. */
+/** Final stop: "Meet the Zookeepers", the real research groups. */
 export function Zookeeper() {
   const reduced = useReducedMotion();
   return (

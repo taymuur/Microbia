@@ -158,3 +158,43 @@ body {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ============================================================
+   Blocks look (Minecraft style), toggled via [data-skin="blocks"].
+   Keeps the bright palette but adds pixel type, square corners, a
+   pixel bevel and crisp rendering. Bubbles and .keep-round stay round.
+   ============================================================ */
+[data-skin='blocks'] body {
+  font-family: 'VT323', monospace;
+  font-size: 21px;
+  letter-spacing: 0.4px;
+  -webkit-font-smoothing: auto;
+}
+[data-skin='blocks'] img,
+[data-skin='blocks'] svg {
+  image-rendering: pixelated;
+}
+[data-skin='blocks'] .font-display {
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 0.66em;
+  letter-spacing: 0;
+  line-height: 1.5;
+  text-shadow: none;
+}
+/* square off rounded corners, except anything that must stay round */
+[data-skin='blocks'] :where([class*='rounded']):not(.keep-round) {
+  border-radius: 2px !important;
+}
+[data-skin='blocks'] .keep-round {
+  border-radius: 999px !important;
+}
+/* pixel bevel on carded surfaces */
+[data-skin='blocks'] .shadow-card {
+  box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.6), inset -2px -2px 0 rgba(0, 0, 0, 0.22),
+    4px 4px 0 rgba(0, 0, 0, 0.2) !important;
+  border-width: 2px !important;
+}
+[data-skin='blocks'][data-theme='dark'] .shadow-card {
+  box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.14), inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+    4px 4px 0 rgba(0, 0, 0, 0.5) !important;
+}

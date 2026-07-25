@@ -1,5 +1,5 @@
 // The Microbe Zoo's signature image: the round anatomical cross-section that
-// forms the tunnel mouth — concentric tissue rings around a folded, petal-like
+// forms the tunnel mouth, concentric tissue rings around a folded, petal-like
 // lumen (the villi). Stylised in our bioluminescent palette, not a photo.
 export function GutCrossSection({
   className,
@@ -27,7 +27,7 @@ export function GutCrossSection({
       <circle r="70" stroke={hue} strokeOpacity="0.6" strokeWidth="10" />
       <circle r="60" stroke="var(--c-magenta)" strokeOpacity="0.35" strokeWidth="2" strokeDasharray="1 6" />
 
-      {/* the folded lumen — petal-shaped villi around the centre */}
+      {/* the folded lumen, petal-shaped villi around the centre */}
       <g>
         {petals.map((deg) => (
           <path
