@@ -198,3 +198,20 @@ body {
   box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.14), inset -2px -2px 0 rgba(0, 0, 0, 0.5),
     4px 4px 0 rgba(0, 0, 0, 0.5) !important;
 }
+
+/* Blocks look: keep headings clearly larger than body copy (Press Start 2P is wide). */
+[data-skin='blocks'] h1.font-display,
+[data-skin='blocks'] h2.font-display {
+  font-size: 1.05rem !important;
+  line-height: 1.45;
+}
+@media (min-width: 640px) {
+  [data-skin='blocks'] h1.font-display,
+  [data-skin='blocks'] h2.font-display {
+    font-size: 1.4rem !important;
+  }
+}
+[data-skin='blocks'] h3.font-display {
+  font-size: 0.85rem !important;
+  line-height: 1.45;
+}

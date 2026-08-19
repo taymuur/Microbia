@@ -415,3 +415,32 @@ What the `ui-ux-pro-max --design-system` engine returned, and what we did with i
 adapted from the ui‑ux‑pro‑max design‑system engine and the referenced Gut Zoomer / GoodBelly
 blueprints. A fan‑made tribute to the Microbe Zoo by the Centre for Microbial Interactions & SAW
 Trust, Norwich Research Park.*
+
+---
+
+## Revision, narrative dioramas + switchable look (current)
+
+The 3D background no longer shows abstract drifting particles. Each stage is now a built scene
+that follows the food's journey, so the visitor sees the story rather than "molecules":
+
+| Stage | Scene |
+|-------|-------|
+| Soil | carrots, lettuce and wheat growing, with a taproot and branch roots reaching down through the earth |
+| Café | a customer buying food across the counter from a server; pizza, bread, a coin changing hands |
+| Mouth | upper and lower teeth, tongue, and a mouthful travelling back toward the throat |
+| Gut | a living tunnel with chewed pepperoni, peas, chocolate chunks, sweetcorn and crust tumbling through |
+| Poo | a bright, tiled bathroom and the toilet, kept light so panel copy stays readable |
+| Waterways | a sewer outfall pipe discharging into a lake, with reeds and lily pads |
+
+Supporting decisions:
+
+- **One `S` primitive** renders every prop. In the Blocks look it swaps each rounded form for a
+  cube, so the Minecraft version is the same scene rebuilt out of blocks rather than a separate
+  implementation.
+- **Per-stage framing** (`FRAME`) scales each diorama and nudges it right of the info panel on
+  wide screens; on narrow screens it recentres.
+- **Microbe bubbles are warm yellow** with a glassy highlight, and sit at the edges of the play
+  area so they never cover the scene. They stay circular in both looks via `.keep-round`.
+- **Blocks legibility**: headings keep an explicit larger size (Press Start 2P is wide), and no
+  text shadow is applied, which removes the doubled-text artefact.
+- The placeholder mouth and poo emoji markers were removed; those stages are told by the 3D scene.

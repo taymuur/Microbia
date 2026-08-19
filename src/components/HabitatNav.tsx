@@ -16,10 +16,10 @@ export function HabitatNav({
   return (
     <nav
       aria-label="Habitats"
-      className="pointer-events-auto flex items-center gap-2 rounded-pill border border-[var(--color-border)] bg-surface px-2 py-2 shadow-card"
+      className="pointer-events-auto flex max-w-full items-center gap-2 overflow-x-auto rounded-pill border border-[var(--color-border)] bg-surface px-2 py-2 shadow-card"
     >
       <NavArrow dir="prev" disabled={index === 0} onClick={() => onGo(index - 1)} />
-      <ul className="flex items-center gap-1">
+      <ul className="flex shrink-0 items-center gap-1">
         {stops.map((s, i) => {
           const active = i === index;
           return (

@@ -37,6 +37,12 @@ labels on meaningful controls. British English throughout. Sound is muted by def
 
 ## Status
 
-Stage order: Soil, Café, Mouth, Gut, Poo, Waterways, then Meet the Scientists. A single persistent
-three.js canvas renders a distinct scene per stage. Toggles for look (Classic / Blocks), sound,
-and light / dark.
+Stage order: Soil, Café, Mouth, Gut, Poo, Waterways, then Meet the Scientists.
+
+Each stage is a 3D diorama that follows the food's journey rather than abstract particles:
+crops growing with roots reaching down through the soil; a customer buying food across a café
+counter; teeth and tongue with a mouthful heading down the throat; chewed food (pepperoni, peas,
+chocolate, sweetcorn) tumbling through the gut; a bright bathroom with the toilet; and a sewer
+pipe emptying into the lake. A single persistent three.js canvas renders them, and the Blocks
+look rebuilds every scene out of cubes. Toggles for look (Classic / Blocks), sound, and light /
+dark.

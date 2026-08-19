@@ -6,22 +6,25 @@ import { usePassport } from '../hooks/usePassport';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useSound } from '../hooks/useSound';
 import { MicrobeCritter } from './MicrobeCritter';
-import { GiantPoo } from './GiantPoo';
 import { SpeciesCard } from './SpeciesCard';
-import { hue, hueVars, hueWash } from '../lib/glow';
+import { hue, hueVars } from '../lib/glow';
 
+// Kept toward the edges so the 3D story stays visible in the middle.
 const SPOTS = [
-  { top: '14%', left: '16%' },
-  { top: '24%', left: '62%' },
-  { top: '58%', left: '30%' },
-  { top: '62%', left: '70%' },
+  { top: '3%', left: '4%' },
+  { top: '7%', left: '70%' },
+  { top: '62%', left: '1%' },
+  { top: '66%', left: '73%' },
 ];
 const IDLES = ['bob', 'swim', 'wiggle', 'bob'] as const;
+
+/** Warm yellow bubble the microbes sit in, with a glassy highlight. */
+const BUBBLE =
+  'radial-gradient(circle at 32% 28%, #fff6cf 0%, #ffe07a 38%, #f5bd2e 72%, #e0a012 100%)';
 
 export function HabitatRoom({ zone }: { zone: ZoneConfig }) {
   const critters = zone.hasSpecies ? microbesByZone(zone.id as ZoneId) : [];
   const [open, setOpen] = useState<Microbe | null>(null);
-  const [pooTalk, setPooTalk] = useState(false);
   const { has } = usePassport();
   const { blip } = useSound();
   const reduced = useReducedMotion();
@@ -36,8 +39,8 @@ export function HabitatRoom({ zone }: { zone: ZoneConfig }) {
   return (
     <section aria-labelledby={`${zone.id}-title`} className="relative min-h-[100dvh] w-full" style={hueVars(zone.accent)}>
       <div className="mx-auto grid min-h-[100dvh] max-w-container gap-6 px-[max(20px,5vw)] pb-28 pt-24 lg:grid-cols-[minmax(0,27rem)_1fr] lg:items-center lg:gap-10">
-        {/* Info panel */}
-        <div className="rounded-xl border border-[var(--color-border)] bg-surface/90 p-6 shadow-card backdrop-blur-md">
+        {/* Info panel. Kept near-opaque so copy stays readable over every scene. */}
+        <div className="rounded-xl border-2 border-[var(--color-border)] bg-surface/95 p-6 shadow-card backdrop-blur-md">
           <p className="font-display text-sm font-bold uppercase tracking-wide" style={{ color: hue(zone.accent) }}>
             {zone.eyebrow}
           </p>
@@ -62,29 +65,30 @@ export function HabitatRoom({ zone }: { zone: ZoneConfig }) {
           )}
 
           {zone.id === 'cafe' && (
-            <button type="button" onClick={(e) => e.preventDefault()} className="mt-4 inline-flex items-center gap-2 rounded-pill px-5 py-2.5 font-display font-bold text-white shadow-card" style={{ background: hue('amber') }}>
+            <button
+              type="button"
+              onClick={(e) => e.preventDefault()}
+              className="mt-4 inline-flex items-center gap-2 rounded-pill px-5 py-2.5 font-display font-bold text-white shadow-card"
+              style={{ background: hue('amber') }}
+            >
               Activity book (soon)
             </button>
           )}
 
-          {zone.hasSpecies ? (
+          {zone.hasSpecies && (
             <p className="mt-5 flex items-center gap-2 font-display text-sm font-semibold text-ink-600">
               <span aria-hidden>👉</span> Tap the microbes to meet them
               <span className="keep-round ml-auto rounded-pill px-2.5 py-0.5 text-white" style={{ background: hue(zone.accent) }}>
                 {collectedHere}/{critters.length}
               </span>
             </p>
-          ) : (
-            <p className="mt-5 font-display text-sm font-semibold text-ink-600">
-              {zone.id === 'poo' ? 'Give the poo a tap.' : 'Just passing through on the way inside.'}
-            </p>
           )}
         </div>
 
-        {/* Play area */}
+        {/* Play area: the microbes living in this stage. */}
         <div className="relative min-h-[56vh] w-full lg:min-h-[68vh]" role="group" aria-label={zone.title}>
           {critters.map((m, i) => {
-            const spot = critters.length === 1 ? { top: '36%', left: '38%' } : SPOTS[i % SPOTS.length];
+            const spot = critters.length === 1 ? SPOTS[0] : SPOTS[i % SPOTS.length];
             const collected = has(m.id);
             return (
               <motion.button
@@ -103,50 +107,19 @@ export function HabitatRoom({ zone }: { zone: ZoneConfig }) {
                 whileHover={reduced ? undefined : { scale: 1.08 }}
                 whileTap={reduced ? undefined : { scale: 0.94 }}
               >
-                <span className="keep-round grid h-20 w-20 place-items-center rounded-full shadow-card sm:h-24 sm:w-24" style={{ background: hueWash(m.glow, 34), color: hue(m.glow) }}>
+                <span
+                  className="keep-round grid h-20 w-20 place-items-center rounded-full shadow-card ring-2 ring-white/70 sm:h-24 sm:w-24"
+                  style={{ background: BUBBLE }}
+                >
                   <MicrobeCritter species={m.id} color={m.color} idle={IDLES[i % IDLES.length]} className="h-14 w-14 sm:h-16 sm:w-16" />
                 </span>
-                <span className="rounded-pill bg-surface px-3 py-1 font-display text-sm font-bold text-ink-900 shadow-card">
+                <span className="rounded-pill border border-[var(--color-border)] bg-surface px-3 py-1 font-display text-sm font-bold text-ink-900 shadow-card">
                   {collected && <span aria-hidden>✓ </span>}
                   {m.name}
                 </span>
               </motion.button>
             );
           })}
-
-          {zone.id === 'poo' && (
-            <motion.button
-              type="button"
-              onClick={() => {
-                blip('poo');
-                setPooTalk((v) => !v);
-              }}
-              aria-label="The giant poo, tap for a fun fact"
-              className="absolute left-1/2 top-1/2 flex w-40 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2"
-              initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ ease: [0.34, 1.56, 0.64, 1] }}
-              whileHover={reduced ? undefined : { scale: 1.05 }}
-              whileTap={reduced ? undefined : { scale: 0.95 }}
-            >
-              {pooTalk && (
-                <span className="mb-1 max-w-[15rem] rounded-lg bg-surface px-3 py-2 text-center text-sm font-semibold text-ink-900 shadow-card">
-                  Fun fact: a big part of poo is living microbes.
-                </span>
-              )}
-              <span className="h-32 w-32 anim-bob sm:h-40 sm:w-40">
-                <GiantPoo />
-              </span>
-              <span className="rounded-pill bg-surface px-3 py-1 font-display text-sm font-bold text-ink-900 shadow-card">Giant Poo</span>
-            </motion.button>
-          )}
-
-          {zone.id === 'mouth' && (
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-              <span className="text-7xl" aria-hidden>👄</span>
-              <p className="mt-4 rounded-lg bg-surface px-4 py-2 font-display text-sm font-semibold text-ink-900 shadow-card">The way into the gut.</p>
-            </div>
-          )}
         </div>
       </div>
 
