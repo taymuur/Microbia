@@ -444,3 +444,30 @@ Supporting decisions:
 - **Blocks legibility**: headings keep an explicit larger size (Press Start 2P is wide), and no
   text shadow is applied, which removes the doubled-text artefact.
 - The placeholder mouth and poo emoji markers were removed; those stages are told by the 3D scene.
+
+---
+
+## Revision, two separate 3D builds (current)
+
+The single shared scene file was split into **two independent implementations** of the same
+journey, because "realistic" and "Minecraft" want opposite primitives:
+
+- `components/scenes/RealScenes.tsx` — smooth and curved. Lathe solids for the toilet, cups and
+  jars; tube geometry along Catmull-Rom curves for roots and the coiled poo; rounded, bevelled
+  boxes for furniture; capsules for limbs; a vertex-displaced plane for real lake waves.
+- `components/scenes/BlockScenes.tsx` — one `B` block primitive and nothing else, flat-shaded,
+  with nearest-neighbour textures and Minecraft-style terrain.
+
+`lib/three-helpers.ts` generates all geometry and textures procedurally (soil, wood, tiles,
+brick, cured meat, melted cheese, wet tissue, and the café menu board drawn as real chalk text),
+so the realistic look needs no image assets and works offline.
+
+Other decisions in this pass:
+
+- **Scenes fill the viewport.** The diorama framing was removed; each scene is built at full
+  scale and `FitCamera` pulls the camera back on narrow screens so it still fills the frame.
+- **The throat is a passage, not a hole.** Both looks build it from segments receding along Z
+  with a dark cap, a uvula, and food that shrinks and disappears into it as the tongue pushes.
+- **Pepperoni reads as food.** Flat discs were replaced by domed slices with a mottled cured-meat
+  texture, plus whole pizza wedges with crust and cheese.
+- Footer credits the author: created by Taimur Shahzad Gill, built using Claude Fable 5 (Cowork).

@@ -32,10 +32,18 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="mt-8 text-xs text-ink-400">
-          Microbia is an educational tribute inspired by the Microbe Zoo. All research described
-          belongs to the institutions credited above. Built with Claude Cowork.
-        </p>
+        <div className="mt-8 border-t border-[var(--color-border)] pt-6">
+          <p className="font-display font-bold text-ink-900">
+            Created by Taimur Shahzad Gill
+          </p>
+          <p className="mt-1 text-sm text-ink-600">
+            Built using Claude Fable 5 (Cowork).
+          </p>
+          <p className="mt-4 text-xs text-ink-400">
+            Microbia is an educational tribute inspired by the Microbe Zoo. All research described
+            belongs to the institutions credited above.
+          </p>
+        </div>
       </div>
     </footer>
   );
