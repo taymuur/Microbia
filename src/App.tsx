@@ -1,6 +1,6 @@
 import { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ThemeProvider } from './hooks/useTheme';
+import { ThemeProvider, useTheme } from './hooks/useTheme';
 import { SkinProvider, useSkin } from './hooks/useSkin';
 import { PassportProvider } from './hooks/usePassport';
 import { SoundProvider, useSound } from './hooks/useSound';
@@ -68,6 +68,7 @@ function Experience() {
 function Tour({ index, go }: { index: number; go: (i: number) => void }) {
   const reduced = useReducedMotion();
   const { skin } = useSkin();
+  const { theme } = useTheme();
   const isKeepers = index >= ZONES.length;
   const zoneId = isKeepers ? 'keepers' : String(ZONES[index].id);
 
@@ -80,7 +81,7 @@ function Tour({ index, go }: { index: number; go: (i: number) => void }) {
       {/* Persistent 3D world behind everything */}
       <div className="pointer-events-none fixed inset-0 z-0" style={{ background: 'var(--color-bg)' }}>
         <Suspense fallback={null}>
-          <Habitat3D zone={zoneId} voxel={skin === 'blocks'} />
+          <Habitat3D zone={zoneId} voxel={skin === 'blocks'} dark={theme === 'dark'} />
         </Suspense>
       </div>
 
