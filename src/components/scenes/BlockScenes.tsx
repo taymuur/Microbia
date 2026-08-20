@@ -215,11 +215,11 @@ export function CafeBlocks({ reduced }: P) {
       <B p={V(0, -4.6, -6.6)} s={[46, 4, 0.5]} c="#b8813f" />
 
       {/* menu board */}
-      <group position={V(4.8, 2.4, -6.2)}>
-        <B p={V(0, 0, 0)} s={[7.8, 5, 0.4]} c="#3a2a1c" />
+      <group position={V(4.6, 2.8, -6.2)}>
+        <B p={V(0, 0, 0)} s={[9.4, 6.1, 0.4]} c="#3a2a1c" />
         <mesh position={V(0, 0, 0.24)}>
-          <planeGeometry args={[7, 4.3]} />
-          <meshStandardMaterial map={menu} flatShading roughness={1} />
+          <planeGeometry args={[8.7, 5.4]} />
+          <meshBasicMaterial map={menu} toneMapped={false} />
         </mesh>
       </group>
 

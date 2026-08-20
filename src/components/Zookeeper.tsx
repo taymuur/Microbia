@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { ZOOKEEPERS } from '../data/zookeepers';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { Footer } from './Footer';
-import { hue, hueVars, hueWash } from '../lib/glow';
+import { hueInk, hueVars, hueWash } from '../lib/glow';
 
 /** Final stop: "Meet the Zookeepers", the real research groups. */
 export function Zookeeper() {
@@ -14,7 +14,7 @@ export function Zookeeper() {
       style={{ background: 'color-mix(in srgb, var(--c-violet) 10%, var(--color-bg))' }}
     >
       <div className="mx-auto max-w-container px-[max(20px,5vw)] pb-28 pt-24">
-        <p className="font-display text-sm font-bold uppercase tracking-wide" style={{ color: hue('violet') }}>
+        <p className="font-display text-sm font-bold uppercase tracking-wide" style={{ color: hueInk('violet') }}>
           The zookeepers
         </p>
         <h2 id="keepers-title" tabIndex={-1} className="mt-1 font-display text-4xl font-bold text-ink-900 outline-none sm:text-5xl">
@@ -38,12 +38,12 @@ export function Zookeeper() {
             >
               <span
                 className="inline-block rounded-pill px-3 py-1 font-display text-sm font-bold text-white"
-                style={{ background: hue(z.accent) }}
+                style={{ background: hueInk(z.accent) }}
               >
                 {z.zone}
               </span>
               <h3 className="mt-3 font-display text-2xl font-bold text-ink-900">{z.institution}</h3>
-              <p className="mt-2 text-ink-600">{z.work}</p>
+              <p className="mt-2 text-ink-900">{z.work}</p>
               <div
                 className="mt-4 h-1.5 w-16 rounded-pill"
                 style={{ background: hueWash(z.accent, 60) }}

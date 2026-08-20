@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import {
@@ -285,7 +285,7 @@ export function CafeReal({ reduced }: P) {
   const menu = useMemo(() => menuTexture(), []);
   const counterGeo = useMemo(() => roundedBox(34, 2.6, 3.4, 0.18), []);
   const topGeo = useMemo(() => roundedBox(34.6, 0.34, 4, 0.14), []);
-  const boardGeo = useMemo(() => roundedBox(7.4, 4.6, 0.3, 0.12), []);
+  const boardGeo = useMemo(() => roundedBox(9.2, 5.9, 0.34, 0.14), []);
   const coin = useRef<THREE.Group>(null);
   const steam = useRef<THREE.Group>(null);
   const lamps = useRef<THREE.Group>(null);
@@ -323,12 +323,12 @@ export function CafeReal({ reduced }: P) {
       </mesh>
 
       {/* the menu board */}
-      <group position={V(4.6, 2.4, -6.6)}>
+      <group position={V(4.4, 2.7, -6.6)}>
         <mesh geometry={boardGeo}>
           <meshStandardMaterial color="#3a2a1c" roughness={0.8} />
         </mesh>
         <mesh position={V(0, 0, 0.42)}>
-          <planeGeometry args={[6.9, 4.2]} />
+          <planeGeometry args={[8.6, 5.35]} />
           <meshBasicMaterial map={menu} toneMapped={false} />
         </mesh>
       </group>
@@ -662,37 +662,42 @@ function PizzaSlice() {
 }
 
 /* ================================= GUT ================================= */
+/* Inside the intestine: a wet, villi-lined tube with haustral folds, a
+   travelling peristaltic wave, and chewed food carried along it. */
 export function GutReal({ reduced }: P) {
-  const flesh = useMemo(() => fleshTexture(330), []);
+  const flesh = useMemo(() => fleshTexture(338), []);
   const wall = useRef<THREE.Group>(null);
+  const folds = useRef<THREE.Group>(null);
   const bits = useRef<THREE.Group>(null);
   const villi = useRef<THREE.InstancedMesh>(null);
+  const mucus = useRef<THREE.Group>(null);
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
-  const VILLI = 420;
+  const VILLI = 900;
   const villiSeeds = useMemo(
     () =>
       Array.from({ length: VILLI }, () => ({
         a: Math.random() * Math.PI * 2,
-        z: -Math.random() * 26,
-        s: 0.7 + Math.random() * 0.7,
+        z: -40 + Math.random() * 46,
+        s: 0.55 + Math.random() * 0.75,
         p: Math.random() * Math.PI * 2,
+        tint: Math.random(),
       })),
     [],
   );
 
   const foods = useMemo(
     () =>
-      Array.from({ length: 22 }, (_, i) => {
+      Array.from({ length: 24 }, (_, i) => {
         const kinds = ['slice', 'pea', 'choc', 'corn', 'crust'] as const;
         const a = Math.random() * Math.PI * 2;
-        const r = 0.5 + Math.random() * 2.6;
+        const r = 0.4 + Math.random() * 2.5;
         return {
           kind: kinds[i % kinds.length],
           x: Math.cos(a) * r,
           y: Math.sin(a) * r,
-          z: -Math.random() * 26,
-          sp: 1.8 + Math.random() * 1.8,
+          z: -40 + Math.random() * 46,
+          sp: 1.7 + Math.random() * 1.7,
           rx: Math.random() * Math.PI,
           ry: Math.random() * Math.PI,
         };
@@ -700,21 +705,38 @@ export function GutReal({ reduced }: P) {
     [],
   );
 
+  // per-instance colour variation, so the lining is not one flat pink
+  useEffect(() => {
+    if (!villi.current) return;
+    const c = new THREE.Color();
+    villiSeeds.forEach((v, i) => {
+      c.setHSL(0.93 + v.tint * 0.03, 0.55, 0.5 + v.tint * 0.1);
+      villi.current!.setColorAt(i, c);
+    });
+    if (villi.current.instanceColor) villi.current.instanceColor.needsUpdate = true;
+  }, [villiSeeds]);
+
   useFrame((state, delta) => {
     if (reduced) return;
     const t = state.clock.elapsedTime;
-    // peristalsis: waves squeezing along the tube
+    // a squeeze that travels along the tube rather than pulsing everywhere at once
+    const waveAt = (z: number) => 1 + Math.sin(t * 1.5 - z * 0.42) * 0.075;
     wall.current?.children.forEach((seg) => {
-      const s = 1 + Math.sin(t * 1.6 + seg.position.z * 0.45) * 0.07;
+      const s = waveAt(seg.position.z);
       seg.scale.set(s, s, 1);
+    });
+    folds.current?.children.forEach((f) => {
+      const s = waveAt(f.position.z);
+      f.scale.set(s, s, 1);
     });
     if (villi.current) {
       villiSeeds.forEach((v, i) => {
-        const sway = Math.sin(t * 2 + v.p) * 0.16;
-        const rr = 5.05;
-        dummy.position.set(Math.cos(v.a + sway) * rr, Math.sin(v.a + sway) * rr, v.z);
-        dummy.rotation.set(0, 0, v.a + sway + Math.PI / 2);
-        dummy.scale.setScalar(v.s);
+        const sway = Math.sin(t * 2.2 + v.p) * 0.05;
+        const rr = 5.85 * waveAt(v.z);
+        const a = v.a + sway;
+        dummy.position.set(Math.cos(a) * rr, Math.sin(a) * rr, v.z);
+        dummy.rotation.set(0, 0, a + Math.PI / 2);
+        dummy.scale.set(v.s, v.s * (0.9 + Math.sin(t * 3 + v.p) * 0.1), v.s);
         dummy.updateMatrix();
         villi.current!.setMatrixAt(i, dummy.matrix);
       });
@@ -723,28 +745,68 @@ export function GutReal({ reduced }: P) {
     bits.current?.children.forEach((c, i) => {
       const f = foods[i];
       c.position.z += delta * f.sp;
-      if (c.position.z > 8) c.position.z = -26;
-      c.rotation.x += delta * 0.9;
-      c.rotation.y += delta * 0.6;
+      if (c.position.z > 8) c.position.z = -40;
+      c.rotation.x += delta * 0.8;
+      c.rotation.y += delta * 0.55;
+    });
+    mucus.current?.children.forEach((m, i) => {
+      m.position.z += delta * 1.4;
+      if (m.position.z > 8) m.position.z = -40;
+      m.position.x = Math.cos(t * 0.6 + i) * 3.4;
+      m.position.y = Math.sin(t * 0.5 + i * 1.7) * 3.2;
     });
   });
 
   return (
     <group>
-      {/* the intestinal tube around the viewer */}
+      {/* depth: the tube fades into darkness ahead */}
+      <fog attach="fog" args={['#6d1a44', 12, 46]} />
+      <pointLight position={V(0, 0, 6)} intensity={14} distance={30} decay={1.5} color="#ffc2de" />
+      <pointLight position={V(0, 0, -10)} intensity={6} distance={22} decay={1.6} color="#e0699f" />
+
+      {/* the gut wall */}
       <group ref={wall}>
-        {Array.from({ length: 12 }, (_, i) => (
-          <mesh key={i} position={V(0, 0, -i * 2.6 + 4)} rotation={[Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[5.4, 5.4, 2.7, 34, 1, true]} />
-            <meshStandardMaterial map={flesh} color="#ef7fb4" side={THREE.BackSide} roughness={0.5} />
+        {Array.from({ length: 20 }, (_, i) => (
+          <mesh key={i} position={V(0, 0, 6 - i * 2.5)} rotation={[Math.PI / 2, 0, 0]}>
+            <cylinderGeometry args={[6.4, 6.4, 2.6, 44, 1, true]} />
+            <meshStandardMaterial
+              map={flesh}
+              color="#e2649f"
+              side={THREE.BackSide}
+              roughness={0.28}
+              metalness={0.02}
+            />
           </mesh>
         ))}
       </group>
+
+      {/* haustral folds: the ridges that ring a real intestine */}
+      <group ref={folds}>
+        {Array.from({ length: 10 }, (_, i) => (
+          <mesh key={i} position={V(0, 0, -4 - i * 4.4)} rotation={[0, 0, i * 0.35]}>
+            <torusGeometry args={[6.2, 0.45, 14, 48]} />
+            <meshStandardMaterial map={flesh} color="#d8548f" roughness={0.3} metalness={0.02} />
+          </mesh>
+        ))}
+      </group>
+
+      {/* villi: the dense, finger-like lining */}
       <instancedMesh ref={villi} args={[undefined, undefined, VILLI]}>
-        <coneGeometry args={[0.085, 0.46, 7]} />
-        <meshStandardMaterial color="#f79ac8" roughness={0.5} />
+        <coneGeometry args={[0.085, 0.44, 6]} />
+        <meshStandardMaterial color="#f39ac2" roughness={0.35} metalness={0} />
       </instancedMesh>
 
+      {/* a little fluid moving with the food */}
+      <group ref={mucus}>
+        {Array.from({ length: 7 }, (_, i) => (
+          <mesh key={i} position={V(0, 0, 4 - i * 6)} scale={[1.5, 1.1, 1.5]}>
+            <sphereGeometry args={[0.7, 16, 12]} />
+            <meshStandardMaterial color="#ffd9ec" transparent opacity={0.16} roughness={0.05} />
+          </mesh>
+        ))}
+      </group>
+
+      {/* the chewed food itself */}
       <group ref={bits}>
         {foods.map((f, i) => (
           <group key={i} position={V(f.x, f.y, f.z)} rotation={[f.rx, f.ry, 0]}>

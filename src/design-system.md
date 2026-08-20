@@ -471,3 +471,31 @@ Other decisions in this pass:
 - **Pepperoni reads as food.** Flat discs were replaced by domed slices with a mottled cured-meat
   texture, plus whole pizza wedges with crust and cheese.
 - Footer credits the author: created by Taimur Shahzad Gill, built using Claude Fable 5 (Cowork).
+
+---
+
+## Revision, readable accents + a more convincing gut (current)
+
+**Contrast.** The vivid habitat hues (`--c-amber: #f19a1a`, `--c-lime: #35a854`, …) were being
+used both for accent text on white panels and as the fill behind white text. Both fail WCAG AA
+at small sizes. Each hue now has an AA-safe partner token, `--c-<hue>-ink`, exposed through
+`hueInk()`:
+
+- **light theme**: a darkened variant (5.5:1 or better on the white panel, and safe behind white text)
+- **dark theme**: the existing bright hue, which already passes on the dark panel
+
+`hue()` is now only for large decorative fills; `hueInk()` is used for eyebrows, disclosure
+summaries, count chips, the collect button, keeper chips and the active navigator stop. Info
+panels are fully opaque rather than 95% with a blur, so no scene shows through the copy.
+
+**The café menu board** is redrawn in the site's own faces (Fredoka / Nunito Sans) instead of
+Georgia, at a larger size with generous spacing. Canvas textures can now redraw once
+`document.fonts.ready` resolves, so the board is not baked with a fallback face. Its content
+lists the microbes rather than the dishes, each with its kind in brackets:
+*Saccharomyces cerevisiae (yeast)* and *Bifidobacterium bifidum (bacteria)*, both taken from the
+fact-sheet blurbs already in `data/microbes.ts`.
+
+**The gut** was rebuilt for realism: haustral fold rings receding down the tube, roughly 900
+instanced villi with per-instance colour variation and a gentle sway, a peristaltic wave that
+*travels* along the tube rather than pulsing everywhere at once, a wet low-roughness surface,
+warm interior lights, drifting fluid, and distance fog so the passage fades into darkness.
