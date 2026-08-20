@@ -4,6 +4,12 @@ export type GlowKey = 'teal' | 'lime' | 'amber' | 'magenta' | 'cyan' | 'violet';
 
 export const hue = (k: GlowKey) => `var(--c-${k})`;
 
+/**
+ * The readable variant of a hue. Use this for accent-coloured text on a panel,
+ * and as the fill behind white text; the vivid `hue()` values fail AA for both.
+ */
+export const hueInk = (k: GlowKey) => `var(--c-${k}-ink)`;
+
 /** A translucent version of a hue (for glows, tints, borders). */
 export const hueSoft = (k: GlowKey, pct = 45) =>
   `color-mix(in srgb, var(--c-${k}) ${pct}%, transparent)`;

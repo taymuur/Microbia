@@ -5,7 +5,7 @@ import { usePassport } from '../hooks/usePassport';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useSound } from '../hooks/useSound';
 import { MicrobeCritter } from './MicrobeCritter';
-import { hue, hueVars, hueWash } from '../lib/glow';
+import { hue, hueInk, hueVars, hueWash } from '../lib/glow';
 
 const ZONE_LABEL: Record<Microbe['zone'], string> = {
   soil: 'Soil',
@@ -78,7 +78,7 @@ export function SpeciesCard({ microbe, onClose }: { microbe: Microbe; onClose: (
             <div className="mt-3 flex justify-center">
               <span
                 className="rounded-pill px-3 py-1 font-display text-sm font-semibold text-white"
-                style={{ background: hue(microbe.glow) }}
+                style={{ background: hueInk(microbe.glow) }}
               >
                 {microbe.group} · {ZONE_LABEL[microbe.zone]}
               </span>
@@ -97,7 +97,7 @@ export function SpeciesCard({ microbe, onClose }: { microbe: Microbe; onClose: (
               style={
                 collected
                   ? { background: 'var(--paper-2)', color: 'var(--ink-600)' }
-                  : { background: hue(microbe.glow), color: '#fff' }
+                  : { background: hueInk(microbe.glow), color: '#fff' }
               }
             >
               {collected ? '✓ Collected!' : 'Collect this microbe'}

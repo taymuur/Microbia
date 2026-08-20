@@ -7,7 +7,7 @@ import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useSound } from '../hooks/useSound';
 import { MicrobeCritter } from './MicrobeCritter';
 import { SpeciesCard } from './SpeciesCard';
-import { hue, hueVars } from '../lib/glow';
+import { hueInk, hueVars } from '../lib/glow';
 
 // Kept toward the edges so the 3D story stays visible in the middle.
 const SPOTS = [
@@ -40,8 +40,8 @@ export function HabitatRoom({ zone }: { zone: ZoneConfig }) {
     <section aria-labelledby={`${zone.id}-title`} className="relative min-h-[100dvh] w-full" style={hueVars(zone.accent)}>
       <div className="mx-auto grid min-h-[100dvh] max-w-container gap-6 px-[max(20px,5vw)] pb-28 pt-24 lg:grid-cols-[minmax(0,27rem)_1fr] lg:items-center lg:gap-10">
         {/* Info panel. Kept near-opaque so copy stays readable over every scene. */}
-        <div className="rounded-xl border-2 border-[var(--color-border)] bg-surface/95 p-6 shadow-card backdrop-blur-md">
-          <p className="font-display text-sm font-bold uppercase tracking-wide" style={{ color: hue(zone.accent) }}>
+        <div className="rounded-xl border-2 border-[var(--color-border)] bg-surface p-6 shadow-card">
+          <p className="font-display text-sm font-bold uppercase tracking-wide" style={{ color: hueInk(zone.accent) }}>
             {zone.eyebrow}
           </p>
           <h2 id={`${zone.id}-title`} ref={headingRef} tabIndex={-1} className="mt-2 font-display text-3xl font-bold text-ink-900 outline-none sm:text-4xl">
@@ -55,12 +55,12 @@ export function HabitatRoom({ zone }: { zone: ZoneConfig }) {
           ))}
 
           {zone.research && (
-            <details className="group mt-4 rounded-lg border border-[var(--color-border)] p-3">
-              <summary className="cursor-pointer list-none font-display text-sm font-bold" style={{ color: hue(zone.accent) }}>
+            <details className="group mt-4 rounded-lg border border-[var(--color-border)] bg-paper-2 p-3">
+              <summary className="cursor-pointer list-none font-display text-sm font-bold" style={{ color: hueInk(zone.accent) }}>
                 <span className="group-open:hidden">▶ Show the research</span>
                 <span className="hidden group-open:inline">▼ Research at Norwich Research Park</span>
               </summary>
-              <p className="mt-2 text-sm text-ink-600">{zone.research}</p>
+              <p className="mt-2 text-sm text-ink-900">{zone.research}</p>
             </details>
           )}
 
@@ -69,7 +69,7 @@ export function HabitatRoom({ zone }: { zone: ZoneConfig }) {
               type="button"
               onClick={(e) => e.preventDefault()}
               className="mt-4 inline-flex items-center gap-2 rounded-pill px-5 py-2.5 font-display font-bold text-white shadow-card"
-              style={{ background: hue('amber') }}
+              style={{ background: hueInk('amber') }}
             >
               Activity book (soon)
             </button>
@@ -78,7 +78,7 @@ export function HabitatRoom({ zone }: { zone: ZoneConfig }) {
           {zone.hasSpecies && (
             <p className="mt-5 flex items-center gap-2 font-display text-sm font-semibold text-ink-600">
               <span aria-hidden>👉</span> Tap the microbes to meet them
-              <span className="keep-round ml-auto rounded-pill px-2.5 py-0.5 text-white" style={{ background: hue(zone.accent) }}>
+              <span className="keep-round ml-auto rounded-pill px-2.5 py-0.5 font-bold text-white" style={{ background: hueInk(zone.accent) }}>
                 {collectedHere}/{critters.length}
               </span>
             </p>

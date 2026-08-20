@@ -84,7 +84,7 @@ function canvasTexture(
   w: number,
   h: number,
   draw: (ctx: CanvasRenderingContext2D) => void,
-  opts: { repeat?: [number, number]; pixelated?: boolean } = {},
+  opts: { repeat?: [number, number]; pixelated?: boolean; awaitFonts?: boolean } = {},
 ) {
   const c = document.createElement('canvas');
   c.width = w;
@@ -92,6 +92,15 @@ function canvasTexture(
   const ctx = c.getContext('2d')!;
   draw(ctx);
   const t = new THREE.CanvasTexture(c);
+  // Text drawn before the webfonts land falls back to a system face, which
+  // looks foreign next to the rest of the site. Redraw once they are ready.
+  if (opts.awaitFonts && typeof document !== 'undefined' && 'fonts' in document) {
+    document.fonts.ready.then(() => {
+      ctx.clearRect(0, 0, w, h);
+      draw(ctx);
+      t.needsUpdate = true;
+    });
+  }
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
   if (opts.repeat) t.repeat.set(opts.repeat[0], opts.repeat[1]);
   if (opts.pixelated) {
@@ -175,50 +184,65 @@ export function tileTexture(pixelated = false) {
   );
 }
 
-/** The café menu board, drawn as real chalk text. */
+/**
+ * The café menu board. Lists the microbes behind the food rather than the food
+ * itself; both entries come from the "Meet the Microbe" fact sheets. Set in the
+ * site's own faces (Fredoka / Nunito Sans) so it does not look pasted in.
+ */
 export function menuTexture(pixelated = false) {
   return canvasTexture(
-    512,
-    320,
+    768,
+    480,
     (ctx) => {
-      ctx.fillStyle = '#20372c';
-      ctx.fillRect(0, 0, 512, 320);
-      for (let i = 0; i < 500; i++) {
-        ctx.fillStyle = `rgba(255,255,255,${rnd(0.01, 0.05)})`;
-        ctx.fillRect(rnd(0, 512), rnd(0, 320), rnd(1, 3), rnd(1, 3));
+      ctx.fillStyle = '#1f3b30';
+      ctx.fillRect(0, 0, 768, 480);
+      for (let i = 0; i < 700; i++) {
+        ctx.fillStyle = `rgba(255,255,255,${rnd(0.01, 0.045)})`;
+        ctx.fillRect(rnd(0, 768), rnd(0, 480), rnd(1, 3), rnd(1, 3));
       }
-      ctx.strokeStyle = 'rgba(255,255,255,0.5)';
-      ctx.lineWidth = 3;
-      ctx.strokeRect(16, 16, 480, 288);
+      ctx.strokeStyle = 'rgba(245,240,225,0.45)';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(22, 22, 724, 436);
 
       ctx.textAlign = 'center';
       ctx.fillStyle = '#fdf6e3';
-      ctx.font = 'bold 44px Georgia, serif';
-      ctx.fillText('MICROBE CAFÉ', 256, 74);
-      ctx.font = 'italic 20px Georgia, serif';
-      ctx.fillStyle = '#cfe3c8';
-      ctx.fillText('everything here was made by microbes', 256, 104);
+      ctx.font = '600 62px Fredoka, "Nunito Sans", sans-serif';
+      ctx.fillText('MICROBE CAFÉ', 384, 96);
 
-      ctx.textAlign = 'left';
-      ctx.font = '26px Georgia, serif';
-      ctx.fillStyle = '#fdf6e3';
-      const items: [string, string][] = [
-        ['Sourdough bread', 'yeast'],
-        ['Cheddar cheese', 'bacteria'],
-        ['Live yoghurt', 'bacteria'],
-        ['Pizza', 'yeast'],
+      ctx.font = '400 26px "Nunito Sans", sans-serif';
+      ctx.fillStyle = '#b5d4ab';
+      ctx.fillText("Today's cultures", 384, 136);
+
+      ctx.strokeStyle = 'rgba(245,240,225,0.28)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(90, 160);
+      ctx.lineTo(678, 160);
+      ctx.stroke();
+
+      const rows: [string, string, string][] = [
+        ['Saccharomyces cerevisiae', '(yeast)', 'bread · beer · wine'],
+        ['Bifidobacterium bifidum', '(bacteria)', 'yoghurt · cheese'],
       ];
-      items.forEach(([name, by], i) => {
-        const y = 156 + i * 38;
-        ctx.fillStyle = '#fdf6e3';
-        ctx.fillText(name, 56, y);
-        ctx.fillStyle = '#a8c9a0';
-        ctx.textAlign = 'right';
-        ctx.fillText(by, 456, y);
+      rows.forEach(([name, kind, makes], i) => {
+        const y = 226 + i * 118;
         ctx.textAlign = 'left';
+        ctx.fillStyle = '#fdf6e3';
+        ctx.font = 'italic 600 38px Fredoka, "Nunito Sans", sans-serif';
+        ctx.fillText(name, 92, y);
+
+        ctx.font = '400 30px "Nunito Sans", sans-serif';
+        ctx.fillStyle = '#9fc79a';
+        ctx.textAlign = 'right';
+        ctx.fillText(kind, 676, y);
+
+        ctx.textAlign = 'left';
+        ctx.font = '400 27px "Nunito Sans", sans-serif';
+        ctx.fillStyle = '#d8e6d2';
+        ctx.fillText(makes, 92, y + 40);
       });
     },
-    { pixelated },
+    { pixelated, awaitFonts: true },
   );
 }
 

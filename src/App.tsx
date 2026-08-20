@@ -90,7 +90,7 @@ function Tour({ index, go }: { index: number; go: (i: number) => void }) {
         <button
           type="button"
           onClick={() => go(0)}
-          className="rounded-pill bg-surface/85 px-4 py-2 font-pixel text-pixel-label text-ink-900 shadow-card backdrop-blur"
+          className="rounded-pill border border-[var(--color-border)] bg-surface px-4 py-2 font-pixel text-pixel-label text-ink-900 shadow-card"
           aria-label="Microbia, back to the start"
         >
           MICROBIA

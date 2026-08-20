@@ -29,6 +29,15 @@
   --c-cyan: #159bd4;
   --c-violet: #7a5bf0;
 
+  /* AA-safe variants: used for accent text on panels, and as the fill behind
+     white text. The vivid hues above are too light for either on white. */
+  --c-teal-ink: #0a6f65;
+  --c-lime-ink: #216b36;
+  --c-amber-ink: #8a5405;
+  --c-magenta-ink: #a8215f;
+  --c-cyan-ink: #0d5f83;
+  --c-violet-ink: #4b32b0;
+
   /* semantic */
   --color-bg: var(--paper-1);
   --color-surface: var(--paper-0);
@@ -64,6 +73,14 @@
   --c-magenta: #ff4fd8;
   --c-cyan: #38e1ff;
   --c-violet: #9b7bff;
+
+  /* on the dark panel the vivid hues already pass, so ink == hue */
+  --c-teal-ink: #2fe6a8;
+  --c-lime-ink: #8be04a;
+  --c-amber-ink: #ffb347;
+  --c-magenta-ink: #ff4fd8;
+  --c-cyan-ink: #38e1ff;
+  --c-violet-ink: #9b7bff;
 
   --color-on-accent: #1a1000;
   --color-border: rgba(255, 255, 255, 0.12);

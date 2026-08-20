@@ -1,5 +1,5 @@
 import { ZONES } from '../data/zones';
-import { hue } from '../lib/glow';
+import { hueInk } from '../lib/glow';
 
 // Bottom navigator: travel prev/next, or jump straight to any habitat.
 // Total stops = habitats + the zookeepers room (last).
@@ -30,7 +30,7 @@ export function HabitatNav({
                 aria-label={`Go to ${s.label}`}
                 aria-current={active ? 'true' : undefined}
                 className="grid place-items-center rounded-pill px-2 py-1 transition"
-                style={active ? { background: hue(s.accent), color: '#fff' } : undefined}
+                style={active ? { background: hueInk(s.accent), color: '#fff' } : undefined}
               >
                 <span className={`font-display text-sm font-semibold ${active ? '' : 'text-ink-600'}`}>
                   {s.label}
